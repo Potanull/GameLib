@@ -1,0 +1,46 @@
+.wheel {
+    display: block;
+    margin: auto;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+#rollGame {
+    font-size: 5px;
+}
+
+.modal-lg {
+    width: 750px;
+}
+
+.modal-body {
+    /* подключаем сетку */
+    display: grid;
+    /* ставим всё по центру */
+    place-items: center;
+    /* если что-то не помещается на своё место — скрываем то, что не поместилось */
+    overflow: hidden;
+    min-height: 750px;
+    margin-bottom: 0;
+}
+
+.modal-footer {
+    min-height: 60px;
+    max-height: 60px;
+}
+
+text {
+    font-size: 14px;
+    pointer-events: none;
+    color: white;
+}
+
+#chart {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    top: 0;
+    left: 0;
+}

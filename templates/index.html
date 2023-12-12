@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameLib</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/style/styles.css"/>
+    <link rel="stylesheet" href="../assets/style/wheel.css"/>
+    <link rel="icon" type="image/x-icon" href="../assets/static/favicon.ico">
+</head>
+
+<body class="bg-dark">
+
+<nav class="navbar navbar-ligh">
+    <a class="navbar-brand" href="/">
+        <img src="https://img.icons8.com/fluency/48/null/xbox-controller--v2.png"/>
+        <span class="fs-4" style="color: white">GameLib</span>
+    </a>
+</nav>
+
+<div class="btn-up btn-up_hide"></div>
+
+<div class="input-group mb-2">
+    <div class="input-group mb-2">
+        <input type="text" class="form-control" name="game" placeholder="Введите название игры..."
+               aria-label="Введите название игры..." aria-describedby="button-addon2" autocomplete="off"
+               id="inputNewGame">
+        <button class="btn btn-primary" type="submit" id="buttonAdd">Добавить</button>
+    </div>
+</div>
+
+<div class="row mb-2">
+    <div class="col">
+        <div class="d-grid gap-2">
+            <button class="btn btn-primary" type="submit" id="buttonRandom">Случайная игра</button>
+        </div>
+    </div>
+    <div class="col">
+        <div class="d-grid gap-2">
+            <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                    id="buttonSpin">
+                Крутить колесо
+            </button>
+        </div>
+    </div>
+</div>
+
+<div id="randomGame" class="alert alert-primary" style="height: 4rem; display: none" role="alert">
+    <p class="text-center" id="labelRandomGame"></p>
+</div>
+
+<div class="modal fade bg-dark" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel" style="color: black">Wheel of Fortune</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="wheel">
+                    <div id="chart"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div id="value">
+                    <h1 class="rollGame">ㅤ</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="form-group">
+    <input type="text" class="form-control pull-right" id="search" placeholder="Поиск по таблице" autocomplete="off">
+</div>
+
+<table id="gameTable" class="table dataTable no-footer">
+    <thead>
+    <tr>
+        <th scope="col"><img src="https://img.icons8.com/ios-glyphs/24/FFFFFF/checked-2--v1.png"/></th>
+        <th scope="col" class="w-100"><img src="https://img.icons8.com/ios-glyphs/24/FFFFFF/xbox-controller.png"/>
+            Игры
+        </th>
+        <th scope="col">Удалить</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{ range $key, $val := .gameList }}
+        <tr>
+            {{ if $val.Done }}
+                <td class="align-middle"><input class="form-check-input" type="checkbox"
+                                                value={{ $val.ID }}
+                                                id="flexCheckChecked" checked="">
+                </td>
+            {{ else }}
+                <td class="align-middle"><input class="form-check-input" type="checkbox"
+                                                value={{ $val.ID }}
+                                                id="flexCheckDefault">
+                </td>
+            {{ end }}
+            <td class="align-middle">{{ $val.Name }}</td>
+            <td class="align-middle">
+                <div class="d-flex justify-content-center">
+                    <button type="submit" id="buttonDeleteElem"
+                            class="btn btn-danger btn-sm text-center deleteElemButton" name="buttonDelete"
+                            value={{ $val.ID }}>
+                    </button>
+                </div>
+            </td>
+        </tr>
+    {{ end }}
+    </tbody>
+</table>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>
+<script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+{{/*<script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>*/}}
+{{/*<script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>*/}}
+{{/*<script type="application/javascript" src="../assets/scripts/table.js"></script>*/}}
+<script type="application/javascript" src="../assets/scripts/search.js"></script>
+<script type="application/javascript" src="../assets/scripts/checkBoxClick.js"></script>
+<script type="application/javascript" src="../assets/scripts/updateTable.js"></script>
+<script type="application/javascript" src="../assets/scripts/buttonAdd.js"></script>
+<script type="application/javascript" src="../assets/scripts/buttonDelete.js"></script>
+<script type="application/javascript" src="../assets/scripts/buttonUpPage.js"></script>
+<script type="application/javascript" src="../assets/scripts/wheel.js"></script>
+<script type="application/javascript" src="../assets/scripts/randomGame.js"></script>
+</body>
+</html>

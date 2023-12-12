@@ -1,0 +1,34 @@
+version: '3.9'
+services:
+  db:
+    image: "postgres:14.5-alpine"
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=gamelib-db
+      - POSTGRES_USER=gamelib
+      - POSTGRES_PASSWORD=P@ssw0rd
+    healthcheck:
+      test: pg_isready -U gamelib -d gamelib-db
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  migrate:
+    image: migrate/migrate
+    volumes:
+      - ./postgre/migrations:/migrations
+    command: ["-path", "/migrations", "-database", "postgres://gamelib:P@ssw0rd@db:5432/gamelib-db?sslmode=disable", "up"]
+    restart: "on-failure"
+    depends_on:
+      - db
+    links:
+      - db
+
+#  app:
+#    build: ./
+#    command: ./app
+#    ports:
+#      - "8080:8080"
+#    depends_on:
+#      - db

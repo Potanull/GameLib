@@ -1,0 +1,10 @@
+server:
+  port: 8080
+
+storage:
+  name: gamelib
+  password: P@ssw0rd
+  host: 127.0.0.1
+  port: 5432
+  dbname: gamelib-db
+  sslMode: disable
