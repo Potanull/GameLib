@@ -118,6 +118,33 @@ func PutGame(_ *gin.Context, id int64, updateGame *entities.UpdateGame, repo *sq
 	return &result, nil
 }
 
+func DeleteGame(_ *gin.Context, id int64, repo *sqlx.DB) (*entities.Game, error) {
+	query := sq.Delete(GamesTabler).
+		Where(sq.Eq{IDCol: id}).
+		Suffix(fmt.Sprintf("RETURNING %s", strings.Join(GamesAllCols, ",")))
+
+	rows, err := query.PlaceholderFormat(sq.Dollar).
+		RunWith(repo.DB).Query()
+	if err != nil {
+		return nil, err
+	}
+
+	var result entities.Game
+	for rows.Next() {
+		if err := rows.Scan(
+			&result.ID,
+			&result.CreateDt,
+			&result.UpdateDt,
+			&result.Name,
+			&result.Done,
+		); err != nil {
+			return nil, err
+		}
+	}
+
+	return &result, nil
+}
+
 // ============================================================================================================
 
 func GetGameByName(_ *gin.Context, name string, repo *sqlx.DB) (*entities.Game, error) {

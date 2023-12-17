@@ -70,19 +70,3 @@
   `db.go`: сетап базы, инициализация мапперов
   `mapper_<entity_name>.go`: структура, реализующая методы работу с базой. В ее методах содержится код, который преобразует сущености в SQL-запросы, выполняет их, возвращает результат определенного типа
 
-## Используемые библиотеки
-
-- Роутер — github.com/go-chi/chi
-- Коннектор к базе — golang.yandex/hasql
-- Сбор ошибок — getsentry/sentry-go
-- Логер — go.uber.org/zap под соусом аркадийного library/go/core/log
-- Парсинг конфигов — github.com/heetch/confita
-- Запуск команд cli — github.com/spf13/cobra
-- Билдер запросов — github.com/Masterminds/squirrel
-- http-клиент для похода наружу — github.com/go-resty/resty
-
-## Emergency contacts
-
-[Billing Swat](https://wiki.yandex-team.ru/balance/swat/)
-
-@bremk

@@ -10,7 +10,6 @@ body {
     color: white;
 }
 
-
 *,
 html * /* override x.xhtml.ru style */
 {
@@ -106,12 +105,4 @@ progress {
 
 .table {
     margin: 0 auto;
-}
-
-.deleteElemButton {
-    background-image: url("https://img.icons8.com/ios-filled/20/FFFFFF/full-trash--v1.png");
-    background-position: center;
-    background-repeat: no-repeat;
-    height: 2em;
-    width: 2em;
 }

@@ -18,6 +18,10 @@ func PutGame(ctx *gin.Context, id int64, update *entities.UpdateGame, storage *d
 	return db.PutGame(ctx, id, update, storage.DataBase)
 }
 
+func DeleteGame(ctx *gin.Context, id int64, storage *db.Storage) (*entities.Game, error) {
+	return db.DeleteGame(ctx, id, storage.DataBase)
+}
+
 func GetGameByName(ctx *gin.Context, name string, storage *db.Storage) (*entities.Game, error) {
 	return db.GetGameByName(ctx, name, storage.DataBase)
 }

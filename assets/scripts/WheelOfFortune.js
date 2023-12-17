@@ -32,7 +32,7 @@ $(document).on('click', '#buttonSpin', function () {
         oldrotation = 0,
         picked = 100000,
         oldpick = [],
-        color = ["#0d6efd", "#0445a4"]
+        color = ["#0d6efd", "#0445a4", "#18285c"]
 
 
     var data = getListGames();
@@ -67,7 +67,7 @@ $(document).on('click', '#buttonSpin', function () {
 
     arcs.append("path")
         .attr("fill", function (d, i) {
-            return color[i % 2];
+            return color[i % 3];
         })
         .attr("d", function (d) {
             return arc(d);

@@ -6,6 +6,9 @@ $(document).on('click', '#buttonRandom', function (event) {
         success: function (body) {
             const element = $("#labelRandomGame");
             const newText = body.data.name;
+            if (newText.length == 0) {
+                return;
+            }
             element.text(newText);
             $("#randomGame").show();
             setTimeout(function () {

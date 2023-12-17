@@ -19,9 +19,7 @@ $('#inputNewGame').bind("enterKey", function (e) {
         url: '/api/v1/game/',
         method: 'POST',
         dataType: 'json',
-        data: {
-            'name': $("#inputNewGame").val()
-        },
+        data: JSON.stringify({name:$("#inputNewGame").val()}),
         success: function () {
             $('#inputNewGame').val("");
             updateTable();

@@ -145,6 +145,24 @@ func (h *Handler) PutGame(ctx *gin.Context) {
 	})
 }
 
+func (h *Handler) DeleteGame(ctx *gin.Context) {
+	id, err := strconv.ParseInt(ctx.Param("id"), 10, 64)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, web.ErrorResponse(err))
+		return
+	}
+
+	result, err := actions.DeleteGame(ctx, id, h.Storage)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, web.ErrorResponse(err))
+		return
+	}
+
+	ctx.JSON(http.StatusCreated, gin.H{
+		"data": result,
+	})
+}
+
 func (h *Handler) ReverseDoneStatus(ctx *gin.Context) {
 	id, err := strconv.ParseInt(ctx.Param("id"), 10, 64)
 	if err != nil {

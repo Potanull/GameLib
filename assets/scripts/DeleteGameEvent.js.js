@@ -1,9 +1,8 @@
 $(document).on('click', '#buttonDeleteElem', function (event) {
     $.ajax({
-        url: '/api/delete',
+        url: '/api/v1/game/' + $(this).val(),
         method: 'DELETE',
         dataType: 'json',
-        data: {'deleteGame': $(this).val()},
         success: function () {
             updateTable();
         }

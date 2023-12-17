@@ -21,16 +21,14 @@ func (s *Server) configureRoutes() *gin.Engine {
 		{
 			gameChanges.POST("/", h.PostGame)
 			gameChanges.GET("/:id", h.GetGame)
-			gameChanges.PUT("/:id", h.PutGame)
-			//gameChanges.DELETE("/", h.deleteGameRequest)
-			//gameChanges.PATCH("/", h.updateGameDoneRequest)
-
-			gameChanges.PUT("/reverse/status/:id", h.ReverseDoneStatus)
-
 			gameChanges.GET("/name/:name", h.GetGameByName)
+			gameChanges.PUT("/:id", h.PutGame)
+			gameChanges.DELETE("/:id", h.DeleteGame)
+
 			gameChanges.GET("/all", h.GetAllGames)
 			gameChanges.GET("/random", h.GetRandomGame)
 			gameChanges.GET("/random/list", h.GetRandomListGames)
+			gameChanges.PUT("/reverse/status/:id", h.ReverseDoneStatus)
 		}
 	}
 
