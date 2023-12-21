@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="../assets/style/styles.css"/>
     <link rel="stylesheet" href="../assets/style/card.css"/>
     <link rel="stylesheet" href="../assets/style/wheel.css"/>
+    <link rel="stylesheet" href="../assets/style/add_game.css"/>
     <link rel="icon" type="image/x-icon" href="../assets/static/favicon.ico">
 </head>
 
@@ -26,14 +27,43 @@
 
 <div class="btn-up btn-up_hide"></div>
 
-<div class="input-group mb-2">
-    <div class="input-group mb-2">
-        <input type="text" class="form-control" name="game" placeholder="Введите название игры..."
-               aria-label="Введите название игры..." aria-describedby="button-addon2" autocomplete="off"
-               id="inputNewGame">
-        <button class="btn btn-primary" type="submit" id="buttonAdd">Добавить</button>
+<div class="d-grid gap-1 mb-2">
+    <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#addGameModal"
+            id="buttonAddGame">
+        Добавить
+    </button>
+</div>
+
+<div class="modal fade" id="addGameModal" tabindex="0" aria-labelledby="addGameModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" id="addGameHeader">
+                <h1 class="modal-title fs-5" id="addGameModalLabel" style="color: black">Test</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="addGameBody">
+                <div class="input-group mb-2">
+                    <input type="text" class="form-control" name="game" placeholder="Введите название игры..."
+                           aria-label="Введите название игры..." aria-describedby="button-addon2" autocomplete="off"
+                           id="inputNewGame">
+                </div>
+            </div>
+            <div class="modal-footer" id="addGameFooter">
+                <button class="btn btn-primary" type="submit" id="buttonAdd">Добавить</button>
+            </div>
+        </div>
     </div>
 </div>
+
+<!--<div class="input-group mb-2">-->
+<!--    <div class="input-group mb-2">-->
+<!--        <input type="text" class="form-control" name="game" placeholder="Введите название игры..."-->
+<!--               aria-label="Введите название игры..." aria-describedby="button-addon2" autocomplete="off"-->
+<!--               id="inputNewGame">-->
+<!--        <button class="btn btn-primary" type="submit" id="buttonAdd">Добавить</button>-->
+<!--    </div>-->
+<!--</div>-->
 
 <div class="row mb-2">
     <div class="col">
@@ -43,7 +73,7 @@
     </div>
     <div class="col">
         <div class="d-grid gap-2">
-            <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"
+            <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#wheelOfFortuneModal"
                     id="buttonSpin">
                 Крутить колесо
             </button>
@@ -55,21 +85,21 @@
     <p class="text-center" id="labelRandomGame"></p>
 </div>
 
-<div class="modal fade bg-dark" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+<div class="modal fade" id="wheelOfFortuneModal" tabindex="0" aria-labelledby="wheelOfFortuneModalLabel"
      aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel" style="color: black">Wheel of Fortune</h1>
+            <div class="modal-header" id="wheelOfFortuneHeader">
+                <h1 class="modal-title fs-5" id="wheelOfFortuneModalLabel" style="color: black">Wheel of Fortune</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" id="wheelOfFortuneBody">
                 <div class="wheel">
-                    <div id="chart"></div>
+                    <div id="chartWheelOfFortune"></div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <div id="value">
+            <div class="modal-footer" id="wheelOfFortuneFooter">
+                <div id="valueWheelOfFortune">
                     <h1 class="rollGame">ㅤ</h1>
                 </div>
             </div>

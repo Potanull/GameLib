@@ -17,11 +17,14 @@ const (
 	DoneCol = "done"
 	NameCol = "name"
 
+	ImageUrlCol = "image_url"
+
 	CreateDTCol = "create_dt"
 	UpdateDTCol = "update_dt"
 )
 
-var GamesBaseCols = []string{NameCol, DoneCol}
+var GamesMainCols = []string{NameCol, DoneCol}
+var GamesBaseCols = []string{NameCol, DoneCol, ImageUrlCol}
 var GamesAllCols = append([]string{IDCol, CreateDTCol, UpdateDTCol}, GamesBaseCols...)
 
 func GetGame(_ *gin.Context, id int64, repo *sqlx.DB) (*entities.Game, error) {
@@ -44,6 +47,7 @@ func GetGame(_ *gin.Context, id int64, repo *sqlx.DB) (*entities.Game, error) {
 			&game.UpdateDt,
 			&game.Name,
 			&game.Done,
+			&game.ImageURL,
 		); err != nil {
 			return nil, err
 		}
@@ -75,6 +79,7 @@ func CreateGame(_ *gin.Context, createGame *entities.CreateGame, repo *sqlx.DB) 
 			&result.UpdateDt,
 			&result.Name,
 			&result.Done,
+			&result.ImageURL,
 		); err != nil {
 			return nil, err
 		}
@@ -110,6 +115,7 @@ func PutGame(_ *gin.Context, id int64, updateGame *entities.UpdateGame, repo *sq
 			&result.UpdateDt,
 			&result.Name,
 			&result.Done,
+			&result.ImageURL,
 		); err != nil {
 			return nil, err
 		}
@@ -137,6 +143,7 @@ func DeleteGame(_ *gin.Context, id int64, repo *sqlx.DB) (*entities.Game, error)
 			&result.UpdateDt,
 			&result.Name,
 			&result.Done,
+			&result.ImageURL,
 		); err != nil {
 			return nil, err
 		}
@@ -167,6 +174,7 @@ func GetGameByName(_ *gin.Context, name string, repo *sqlx.DB) (*entities.Game, 
 			&game.UpdateDt,
 			&game.Name,
 			&game.Done,
+			&game.ImageURL,
 		); err != nil {
 			return nil, err
 		}
@@ -200,6 +208,7 @@ func GetAllGames(_ *gin.Context, repo *sqlx.DB) ([]*entities.Game, error) {
 			&tmp.UpdateDt,
 			&tmp.Name,
 			&tmp.Done,
+			&tmp.ImageURL,
 		); err != nil {
 			return gameList, err
 		}
@@ -213,7 +222,7 @@ func GetAllGames(_ *gin.Context, repo *sqlx.DB) ([]*entities.Game, error) {
 }
 
 func GetRandomGame(_ *gin.Context, done bool, repo *sqlx.DB) (*entities.Game, error) {
-	rows, err := sq.Select(GamesBaseCols...).
+	rows, err := sq.Select(GamesMainCols...).
 		From(GamesTabler).
 		Where(sq.Eq{DoneCol: done}).
 		OrderBy("random()").
@@ -228,7 +237,10 @@ func GetRandomGame(_ *gin.Context, done bool, repo *sqlx.DB) (*entities.Game, er
 
 	var game entities.Game
 	for rows.Next() {
-		if err := rows.Scan(&game.Name, &game.Done); err != nil {
+		if err := rows.Scan(
+			&game.Name,
+			&game.Done,
+		); err != nil {
 			return nil, err
 		}
 	}
@@ -237,7 +249,7 @@ func GetRandomGame(_ *gin.Context, done bool, repo *sqlx.DB) (*entities.Game, er
 }
 
 func GetRandomListGames(_ *gin.Context, done bool, repo *sqlx.DB) ([]*entities.Game, error) {
-	rows, err := sq.Select(GamesBaseCols...).
+	rows, err := sq.Select(GamesMainCols...).
 		From(GamesTabler).
 		Where(sq.Eq{DoneCol: done}).
 		OrderBy("random()").
@@ -266,7 +278,7 @@ func GetRandomListGames(_ *gin.Context, done bool, repo *sqlx.DB) ([]*entities.G
 }
 
 func CheckGame(_ *gin.Context, id int64, repo *sqlx.DB) (bool, *entities.Game, error) {
-	rows, err := sq.Select(GamesBaseCols...).
+	rows, err := sq.Select(GamesMainCols...).
 		From(GamesTabler).
 		Where(sq.Eq{IDCol: id}).
 		PlaceholderFormat(sq.Dollar).
@@ -297,7 +309,7 @@ func CheckGame(_ *gin.Context, id int64, repo *sqlx.DB) (bool, *entities.Game, e
 }
 
 func CheckGameByName(_ *gin.Context, name string, repo *sqlx.DB) (bool, *entities.Game, error) {
-	rows, err := sq.Select(GamesBaseCols...).
+	rows, err := sq.Select(GamesMainCols...).
 		From(GamesTabler).
 		Where(sq.Eq{NameCol: name}).
 		PlaceholderFormat(sq.Dollar).
@@ -336,18 +348,3 @@ func ReverseDoneStatus(_ *gin.Context, id int64, repo *sqlx.DB) error {
 	}
 	return nil
 }
-
-//
-//func (s *Storage) DeleteGameRequest(ctx *gin.Context, game string) error {
-//	if _, err := s.DataBase.Exec("DELETE FROM gamelib.t_games WHERE LOWER(name) = LOWER($1)", game); err != nil {
-//		return err
-//	}
-//	return nil
-//}
-//
-//func (s *Storage) UpdateGameDoneRequest(ctx *gin.Context, game string) error {
-//	if _, err := s.DataBase.Exec("UPDATE gamelib.t_games SET DONE = NOT DONE WHERE name = $1", game); err != nil {
-//		return err
-//	}
-//	return nil
-//}

@@ -3,13 +3,21 @@ $(document).on('click', '#buttonAdd', function (event) {
         url: '/api/v1/game/',
         method: 'POST',
         dataType: 'json',
-        data: JSON.stringify({name:$("#inputNewGame").val()}),
-        success: function () {
-            $('#inputNewGame').val("");
-            updateTable();
+        data: JSON.stringify({name: $("#inputNewGame").val()}),
+        statusCode: {
+            201: function () {
+                $('#inputNewGame').val("");
+                updateTable();
+            },
+            200: function () {
+                alert("Игра уже есть в списке");
+            },
+            400: function () {
+                alert("Что-то пошло не так!");
+            }
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
-            alert("Игра уже есть в списке");
+            alert("Что-то пошло не так!");
         }
     });
 });
@@ -19,7 +27,7 @@ $('#inputNewGame').bind("enterKey", function (e) {
         url: '/api/v1/game/',
         method: 'POST',
         dataType: 'json',
-        data: JSON.stringify({name:$("#inputNewGame").val()}),
+        data: JSON.stringify({name: $("#inputNewGame").val()}),
         success: function () {
             $('#inputNewGame').val("");
             updateTable();

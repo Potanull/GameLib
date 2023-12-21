@@ -50,18 +50,6 @@ html *::-webkit-scrollbar-thumb {
     --bs-pagination-hover-border-color: #0b5ed7;
 }
 
-.dataTables_filter {
-    color: white;
-}
-
-.dataTables_length {
-    color: white;
-}
-
-.table {
-    color: white;
-}
-
 .f32 .flag {
     vertical-align: middle;
     margin: -8px 0;
@@ -105,4 +93,18 @@ progress {
 
 .table {
     margin: 0 auto;
+}
+
+.modal-body {
+    /* подключаем сетку */
+    display: grid;
+    /* если что-то не помещается на своё место — скрываем то, что не поместилось */
+    overflow: hidden;
+    min-height: 750px;
+    height: 750px;
+    margin-bottom: 0;
+}
+
+.modal-lg {
+    width: 750px;
 }

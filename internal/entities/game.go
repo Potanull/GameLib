@@ -7,6 +7,8 @@ type Game struct {
 	Name string `json:"name"`
 	Done bool   `json:"done"`
 
+	ImageURL *string `json:"image_url"`
+
 	CreateDt time.Time `json:"create_dt"`
 	UpdateDt time.Time `json:"update_dt"`
 }

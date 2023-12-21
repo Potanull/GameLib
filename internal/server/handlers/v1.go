@@ -180,26 +180,3 @@ func (h *Handler) ReverseDoneStatus(ctx *gin.Context) {
 		"status": "ok",
 	})
 }
-
-//func (h *Handler) deleteGameRequest(c *gin.Context) {
-//	game := c.Request.FormValue("deleteGame")
-//
-//	if err := h.Game.DeleteGameRequest(game, c); err != nil {
-//		log.Fatalf("request invalid: %s", err)
-//	}
-//
-//	c.JSON(http.StatusOK, gin.H{
-//		"deleteGame": game,
-//	})
-//}
-//
-//func (h *Handler) updateGameDoneRequest(c *gin.Context) {
-//	game := c.Request.FormValue("updateDoneGame")
-//	if err := h.Game.UpdateGameDoneRequest(game, c); err != nil {
-//		log.Fatalf("request invalid: %s", err)
-//	}
-//
-//	c.JSON(http.StatusOK, gin.H{
-//		"updateDoneGame": game,
-//	})
-//}

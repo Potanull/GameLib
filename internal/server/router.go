@@ -19,9 +19,10 @@ func (s *Server) configureRoutes() *gin.Engine {
 	{
 		gameChanges := accountChanges.Group("/game/")
 		{
-			gameChanges.POST("/", h.PostGame)
 			gameChanges.GET("/:id", h.GetGame)
 			gameChanges.GET("/name/:name", h.GetGameByName)
+
+			gameChanges.POST("/", h.PostGame)
 			gameChanges.PUT("/:id", h.PutGame)
 			gameChanges.DELETE("/:id", h.DeleteGame)
 

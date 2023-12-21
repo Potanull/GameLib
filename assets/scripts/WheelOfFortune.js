@@ -21,7 +21,7 @@ function getListGames() {
 }
 
 $(document).on('click', '#buttonSpin', function () {
-    $("#chart").html("");
+    $("#chartWheelOfFortune").html("");
     $(".rollGame").html("ㅤ");
 
     var padding = {top: 20, right: 20, bottom: 0, left: 20},
@@ -37,7 +37,7 @@ $(document).on('click', '#buttonSpin', function () {
 
     var data = getListGames();
 
-    var svg = d3.select('#chart')
+    var svg = d3.select('#chartWheelOfFortune')
         .append("svg")
         .data([data])
         .attr("width", w + padding.left + padding.right)
@@ -69,6 +69,8 @@ $(document).on('click', '#buttonSpin', function () {
         .attr("fill", function (d, i) {
             return color[i % 3];
         })
+        .attr("stroke", "black")
+        .attr("stroke-width", 2)
         .attr("d", function (d) {
             return arc(d);
         });
@@ -80,7 +82,7 @@ $(document).on('click', '#buttonSpin', function () {
         d.angle = (d.startAngle + d.endAngle) / 2;
         return "rotate(" + (d.angle * 180 / Math.PI - 90) + ")translate(" + (d.outerRadius - 10) + ")";
     }).attr("text-anchor", "end").style({"fill": "white"}).text(function (d, i) {
-            return data[i].label;
+        return data[i].label;
     });
 
     container.on("click", spin);
@@ -97,7 +99,10 @@ $(document).on('click', '#buttonSpin', function () {
         .attr("cx", 0)
         .attr("cy", 0)
         .attr("r", 30)
-        .style({"fill": "white", "cursor": "pointer"});
+        .style({
+            "fill": "white", "stroke": "black",
+            "stroke-width": "2px", "cursor": "pointer"
+        });
 
     //spin text
     container.append("text")
@@ -144,7 +149,10 @@ $(document).on('click', '#buttonSpin', function () {
 
                 d3.select(".slice:nth-child(" + (picked + 1) + ") path").attr("fill", "#212529");
 
-                d3.select("#value h1").style({"color": "black","font-size": "20px"}).text(data[picked].value);
+                d3.select("#valueWheelOfFortune h1").style({
+                    "color": "black",
+                    "font-size": "20px"
+                }).text(data[picked].value);
 
                 container.on("click", spin);
             });
