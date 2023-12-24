@@ -12,6 +12,9 @@ $(document).on('click', '#buttonAdd', function (event) {
             200: function () {
                 alert("Игра уже есть в списке");
             },
+            422: function () {
+                alert("Имя игры слишком большое");
+            },
             400: function () {
                 alert("Что-то пошло не так!");
             }

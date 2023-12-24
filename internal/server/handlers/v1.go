@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -9,6 +10,8 @@ import (
 	"gamelib/pkg/web"
 	"github.com/gin-gonic/gin"
 )
+
+const maxLenGameName = 150
 
 func (h *Handler) MainPage(ctx *gin.Context) {
 	base, err := actions.GetAllGames(ctx, h.Storage)
@@ -96,6 +99,14 @@ func (h *Handler) PostGame(ctx *gin.Context) {
 	var game *entities.CreateGame
 	if err := ctx.ShouldBindJSON(&game); err != nil {
 		ctx.JSON(http.StatusBadRequest, web.ErrorResponse(err))
+		return
+	}
+
+	if len(game.Name) > maxLenGameName {
+		ctx.JSON(
+			http.StatusUnprocessableEntity,
+			web.ErrorResponse(fmt.Errorf("name of game is too long")),
+		)
 		return
 	}
 

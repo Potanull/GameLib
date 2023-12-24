@@ -100,11 +100,76 @@ progress {
     display: grid;
     /* если что-то не помещается на своё место — скрываем то, что не поместилось */
     overflow: hidden;
-    min-height: 750px;
-    height: 750px;
+    min-height: 250px;
+    height: 250px;
     margin-bottom: 0;
 }
 
 .modal-lg {
     width: 750px;
+}
+
+.poster {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.poster::before {
+    content: '';
+    position: absolute;
+    bottom: -45%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    transition: .3s;
+}
+
+.poster img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: .3s;
+}
+
+.poster .form-check-input {
+    position: absolute;
+    margin-top: 0.5em;
+    margin-left: 0.5em;
+    z-index: 1;
+}
+
+.poster .deleteElemButton {
+    background-image: url("/assets/static/icons8-delete-32.png");
+    background-size: 80% 80%;
+    background-position: center;
+    background-repeat: no-repeat;
+    float: right;
+    position: relative;
+    margin-top: 0.5em;
+    margin-right: 0.5em;
+    z-index: 1;
+    height: 2em;
+    width: 2em;
+}
+
+.poster .updateElemButton {
+    background-image: url("/assets/static/icons8-edit-32.png");
+    background-size: 80% 80%;
+    background-position: center;
+    background-repeat: no-repeat;
+    float: right;
+    position: relative;
+    margin-top: 0.5em;
+    margin-right: 0.5em;
+    z-index: 1;
+    height: 2em;
+    width: 2em;
 }

@@ -39,15 +39,14 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header" id="addGameHeader">
-                <h1 class="modal-title fs-5" id="addGameModalLabel" style="color: black">Test</h1>
+                <h1 class="modal-title fs-5" id="addGameModalLabel" style="color: black">Добавить новую игру</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" id="addGameBody">
-                <div class="input-group mb-2">
-                    <input type="text" class="form-control" name="game" placeholder="Введите название игры..."
-                           aria-label="Введите название игры..." aria-describedby="button-addon2" autocomplete="off"
-                           id="inputNewGame">
-                </div>
+                <input type="text" class="form-control" name="game" placeholder="Введите название игры..."
+                       aria-label="Введите название игры..." aria-describedby="button-addon2" autocomplete="off"
+                       id="inputNewGame">
+                <input class="form-check-input" type="checkbox" id="flexCheckChecked" checked="">
             </div>
             <div class="modal-footer" id="addGameFooter">
                 <button class="btn btn-primary" type="submit" id="buttonAdd">Добавить</button>
@@ -118,17 +117,24 @@
     <div class="card" data-name={{ $val.Name }}>
         <div class="poster">
             {{ if $val.Done }}
-            <input class="form-check-input" type="checkbox"
-                   value={{ $val.ID }}
-                   id="flexCheckChecked" checked="">
+            <input class="form-check-input statusCheckBox" type="checkbox"
+                   value={{ $val.ID }} checked>
             {{ else }}
-            <input class="form-check-input" type="checkbox"
-                   value={{ $val.ID }}
-                   id="flexCheckDefault">
+            <input class="form-check-input statusCheckBox" type="checkbox"
+                   value={{ $val.ID }}>
             {{ end }}
-            <img src="../assets/static/tmpGrid.png" alt="Location Unknown">
+
+            {{ if $val.ImageURL }}
+            <img src={{ $val.ImageURL }} alt= {{ $val.Name }}>
+            {{ else }}
+            <img src="../assets/static/tmpGrid.png">
+            {{ end }}
             <button type="submit" id="buttonDeleteElem"
                     class="btn btn-danger btn-sm text-center deleteElemButton" name="buttonDelete"
+                    value={{ $val.ID }}>
+            </button>
+            <button type="submit" id="buttonUpdate"
+                    class="btn btn-primary btn-sm text-center updateElemButton" name="buttonUpdate"
                     value={{ $val.ID }}>
             </button>
         </div>
@@ -144,15 +150,6 @@
         crossorigin="anonymous"></script>
 <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-{{/*
-<script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
-*/}}
-{{/*
-<script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
-*/}}
-{{/*
-<script type="application/javascript" src="../assets/scripts/TableSettings.js"></script>
-*/}}
 <script type="application/javascript" src="../assets/scripts/SearchGameEvent.js"></script>
 <script type="application/javascript" src="../assets/scripts/SwitchStatusGame.js"></script>
 <script type="application/javascript" src="../assets/scripts/UpdateTable.js"></script>

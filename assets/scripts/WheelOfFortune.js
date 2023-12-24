@@ -81,7 +81,7 @@ $(document).on('click', '#buttonSpin', function () {
         d.outerRadius = r;
         d.angle = (d.startAngle + d.endAngle) / 2;
         return "rotate(" + (d.angle * 180 / Math.PI - 90) + ")translate(" + (d.outerRadius - 10) + ")";
-    }).attr("text-anchor", "end").style({"fill": "white"}).text(function (d, i) {
+    }).attr("text-anchor", "end").style({"fill": "white", "font-size":"0.75em"}).text(function (d, i) {
         return data[i].label;
     });
 
