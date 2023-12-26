@@ -14,6 +14,7 @@ func (s *Server) configureRoutes() *gin.Engine {
 	h := handlers.NewHandler(s.Storage)
 
 	router.GET("/", h.MainPage)
+	router.POST("/api/image/:name", h.PostImage)
 
 	accountChanges := router.Group("/api/v1/")
 	{

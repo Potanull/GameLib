@@ -100,13 +100,14 @@ progress {
     display: grid;
     /* если что-то не помещается на своё место — скрываем то, что не поместилось */
     overflow: hidden;
-    min-height: 250px;
-    height: 250px;
+    min-height: 750px;
+    height: 750px;
     margin-bottom: 0;
 }
 
 .modal-lg {
     width: 750px;
+    height: 450px;
 }
 
 .poster {

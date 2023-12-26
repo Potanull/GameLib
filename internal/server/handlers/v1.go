@@ -2,13 +2,12 @@ package handlers
 
 import (
 	"fmt"
-	"net/http"
-	"strconv"
-
 	"gamelib/internal/actions"
 	"gamelib/internal/entities"
 	"gamelib/pkg/web"
 	"github.com/gin-gonic/gin"
+	"net/http"
+	"strconv"
 )
 
 const maxLenGameName = 150
@@ -102,6 +101,14 @@ func (h *Handler) PostGame(ctx *gin.Context) {
 		return
 	}
 
+	if len(game.Name) == 0 {
+		ctx.JSON(
+			http.StatusUnprocessableEntity,
+			web.ErrorResponse(fmt.Errorf("name can't be empty")),
+		)
+		return
+	}
+
 	if len(game.Name) > maxLenGameName {
 		ctx.JSON(
 			http.StatusUnprocessableEntity,
@@ -190,4 +197,31 @@ func (h *Handler) ReverseDoneStatus(ctx *gin.Context) {
 	ctx.JSON(http.StatusCreated, gin.H{
 		"status": "ok",
 	})
+}
+
+func (h *Handler) PostImage(ctx *gin.Context) {
+	img, err := ctx.FormFile("image")
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"status": "image error",
+		})
+		return
+	}
+
+	imgName := ctx.Param("name")
+	if len(imgName) == 0 {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"status": "image name error",
+		})
+		return
+	}
+
+	if err := ctx.SaveUploadedFile(img, actions.PathGrids+imgName); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"status": "error",
+		})
+		return
+	}
+
+	ctx.String(http.StatusOK, "Files uploaded")
 }

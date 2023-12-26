@@ -1,6 +1,8 @@
 package entities
 
-import "time"
+import (
+	"time"
+)
 
 type Game struct {
 	ID   int64  `json:"id"`
@@ -14,7 +16,8 @@ type Game struct {
 }
 
 type CreateGame struct {
-	Name string `json:"name"`
+	Name  string `json:"name"`
+	Image string `json:"image"`
 }
 
 type UpdateGame struct {

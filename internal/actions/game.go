@@ -6,11 +6,17 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+const (
+	directUp  = "../"
+	PathGrids = "assets/static/grids/"
+)
+
 func GetGame(ctx *gin.Context, id int64, storage *db.Storage) (*entities.Game, error) {
 	return db.GetGame(ctx, id, storage.DataBase)
 }
 
 func CreateGame(ctx *gin.Context, game *entities.CreateGame, storage *db.Storage) (*entities.Game, error) {
+	game.Image = directUp + PathGrids + game.Image
 	return db.CreateGame(ctx, game, storage.DataBase)
 }
 

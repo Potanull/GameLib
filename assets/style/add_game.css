@@ -1,15 +1,24 @@
-#addGameBody.text {
-    font-size: 14px;
-    pointer-events: none;
-    color: #000000;
-}
-
 #addGameBody.modal-body {
     /* подключаем сетку */
-    display: grid;
+    display: block;
     /* ставим всё по центру */
     overflow: hidden;
-    min-height: 750px;
-    height: 750px;
+    min-height: 150px;
+    height: 150px;
     margin-bottom: 0;
+    margin-top: 0;
+}
+
+#inputNewGame {
+    display: block;
+    width: 100%;
+    height: 40px;
+}
+
+#addGameBody.modal-body{
+    color: black;
+}
+
+.form-label{
+    margin: 0;
 }
