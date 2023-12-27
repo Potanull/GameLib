@@ -55,36 +55,6 @@
     opacity: .6;
 }
 
-.details .rating {
-    position: relative;
-    margin-bottom: 15px;
-    display: flex;
-    gap: .25em;
-}
-
-.details .rating i {
-    color: #e3c414;
-}
-
-.details .rating span {
-    margin-left: 0.25em;
-}
-
-.details .tags {
-    display: flex;
-    gap: .375em;
-    margin-bottom: .875em;
-    font-size: .85em;
-}
-
-.details .tags span {
-    padding: .35rem .65rem;
-    color: #fff;
-    border: 1.5px solid rgba(255 255 255 / 0.4);
-    border-radius: 4px;
-    border-radius: 50px;
-}
-
 .details .desc {
     color: #fff;
     opacity: .8;

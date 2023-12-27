@@ -24,11 +24,11 @@ function updateTable() {
             } else {
                 rows += `<img src="../assets/static/tmpGrid.png">`
             }
-            rows += `<button type="submit" id="buttonDeleteElem"
+            rows += `<button type="button" id="buttonDeleteElem"
                             class="btn btn-danger btn-sm text-center deleteElemButton" name="buttonDelete"
                             value="${obj.id}">
                     </button>
-                    <button type="submit" id="buttonUpdate"
+                    <button type="button" id="buttonUpdateElem" data-bs-toggle="modal" data-bs-target="#updateGameModal"
                             class="btn btn-primary btn-sm text-center updateElemButton" name="buttonUpdate"
                             value="${obj.id}">
                     </button>

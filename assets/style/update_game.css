@@ -1,0 +1,41 @@
+#updateGameBody.modal-body {
+    /* подключаем сетку */
+    display: grid;
+    /* ставим всё по центру */
+    overflow: hidden;
+    min-height: 650px;
+    height: 650px;
+    margin-bottom: 0;
+    margin-top: 0;
+    align-items: center;
+    justify-content: center;
+}
+
+#updateGameNameInput {
+    display: block;
+    width: 100%;
+    height: 40px;
+}
+
+#updateGameBody.modal-body{
+    color: black;
+}
+
+.form-label{
+    margin: 0;
+}
+
+.inputGrid {
+    position: relative;
+    width: 325px;
+    height: 450px;
+    background: #000;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+}
+
+.inputGrid img {
+    width: 100%;
+    height: 100%;
+}

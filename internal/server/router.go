@@ -14,23 +14,26 @@ func (s *Server) configureRoutes() *gin.Engine {
 	h := handlers.NewHandler(s.Storage)
 
 	router.GET("/", h.MainPage)
-	router.POST("/api/image/:name", h.PostImage)
 
-	accountChanges := router.Group("/api/v1/")
+	apiGroup := router.Group("/api/")
 	{
-		gameChanges := accountChanges.Group("/game/")
+		apiGroup.POST("/image/:name", h.PostImage)
+		v1Group := apiGroup.Group("/v1/")
 		{
-			gameChanges.GET("/:id", h.GetGame)
-			gameChanges.GET("/name/:name", h.GetGameByName)
+			gameGroup := v1Group.Group("/game/")
+			{
+				gameGroup.GET("/:id", h.GetGame)
+				gameGroup.GET("/name/:name", h.GetGameByName)
 
-			gameChanges.POST("/", h.PostGame)
-			gameChanges.PUT("/:id", h.PutGame)
-			gameChanges.DELETE("/:id", h.DeleteGame)
+				gameGroup.POST("/", h.PostGame)
+				gameGroup.PUT("/:id", h.PutGame)
+				gameGroup.DELETE("/:id", h.DeleteGame)
 
-			gameChanges.GET("/all", h.GetAllGames)
-			gameChanges.GET("/random", h.GetRandomGame)
-			gameChanges.GET("/random/list", h.GetRandomListGames)
-			gameChanges.PUT("/reverse/status/:id", h.ReverseDoneStatus)
+				gameGroup.GET("/all", h.GetAllGames)
+				gameGroup.GET("/random", h.GetRandomGame)
+				gameGroup.GET("/random/list", h.GetRandomListGames)
+				gameGroup.PUT("/reverse/status/:id", h.ReverseDoneStatus)
+			}
 		}
 	}
 

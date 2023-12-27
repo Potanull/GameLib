@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="../assets/style/card.css"/>
     <link rel="stylesheet" href="../assets/style/wheel.css"/>
     <link rel="stylesheet" href="../assets/style/add_game.css"/>
+    <link rel="stylesheet" href="../assets/style/update_game.css"/>
     <link rel="icon" type="image/x-icon" href="../assets/static/favicon.ico">
 </head>
 
@@ -33,7 +34,6 @@
         Добавить
     </button>
 </div>
-
 
 <div class="modal fade" id="addGameModal" tabindex="0" aria-labelledby="addGameModalLabel"
      aria-hidden="true">
@@ -70,6 +70,23 @@
     </div>
 </div>
 
+<div class="modal fade" id="updateGameModal" tabindex="0" aria-labelledby="updateGameModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" id="updateGameHeader">
+                <h1 class="modal-title fs-5" id="updateGameModalLabel" style="color: black">Обновление игры</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="updateGameBody">
+                Редактирование игры
+            </div>
+            <div class="modal-footer" id="updateGameFooter">
+                <button class="btn btn-primary" type="submit" id="buttonUpdate">Обновить</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="row mb-2">
     <div class="col">
@@ -136,11 +153,11 @@
             {{ else }}
             <img src="../assets/static/tmpGrid.png">
             {{ end }}
-            <button type="submit" id="buttonDeleteElem"
+            <button type="button" id="buttonDeleteElem"
                     class="btn btn-danger btn-sm text-center deleteElemButton" name="buttonDelete"
                     value={{ $val.ID }}>
             </button>
-            <button type="submit" id="buttonUpdate"
+            <button type="button" id="buttonUpdateElem" data-bs-toggle="modal" data-bs-target="#updateGameModal"
                     class="btn btn-primary btn-sm text-center updateElemButton" name="buttonUpdate"
                     value={{ $val.ID }}>
             </button>
@@ -161,6 +178,7 @@
 <script type="application/javascript" src="../assets/scripts/SwitchStatusGame.js"></script>
 <script type="application/javascript" src="../assets/scripts/UpdateTable.js"></script>
 <script type="application/javascript" src="../assets/scripts/AddGameEvent.js"></script>
+<script type="application/javascript" src="../assets/scripts/UpdateGameEvent.js"></script>
 <script type="application/javascript" src="../assets/scripts/DeleteGameEvent.js.js"></script>
 <script type="application/javascript" src="../assets/scripts/UpPageEvent.js"></script>
 <script type="application/javascript" src="../assets/scripts/WheelOfFortune.js"></script>
