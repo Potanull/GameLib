@@ -7,6 +7,8 @@ import (
 	"gamelib/pkg/web"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"os"
+	"strings"
 )
 
 const (
@@ -52,6 +54,18 @@ func PutGame(ctx *gin.Context, id int64, update *entities.UpdateGame, storage *d
 }
 
 func DeleteGame(ctx *gin.Context, id int64, storage *db.Storage) (*entities.Game, error) {
+	game, err := GetGame(ctx, id, storage)
+	if err != nil {
+		return nil, err
+	}
+
+	if game.ImageURL != nil {
+		err = os.Remove(strings.TrimPrefix(*game.ImageURL, directUp))
+		if err != nil {
+			return nil, err
+		}
+	}
+
 	return db.DeleteGame(ctx, id, storage.DataBase)
 }
 
