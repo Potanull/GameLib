@@ -16,8 +16,9 @@ type Game struct {
 }
 
 type CreateGame struct {
-	Name  string `json:"name"`
-	Image string `json:"image"`
+	Name  string  `json:"name"`
+	Done  bool    `json:"done"`
+	Image *string `json:"image"`
 }
 
 type UpdateGame struct {

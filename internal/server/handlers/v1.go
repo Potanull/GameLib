@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"gamelib/internal/actions"
 	"gamelib/internal/entities"
 	"gamelib/pkg/web"
@@ -9,8 +8,6 @@ import (
 	"net/http"
 	"strconv"
 )
-
-const maxLenGameName = 150
 
 func (h *Handler) MainPage(ctx *gin.Context) {
 	base, err := actions.GetAllGames(ctx, h.Storage)
@@ -98,33 +95,6 @@ func (h *Handler) PostGame(ctx *gin.Context) {
 	var game *entities.CreateGame
 	if err := ctx.ShouldBindJSON(&game); err != nil {
 		ctx.JSON(http.StatusBadRequest, web.ErrorResponse(err))
-		return
-	}
-
-	if len(game.Name) == 0 {
-		ctx.JSON(
-			http.StatusUnprocessableEntity,
-			web.ErrorResponse(fmt.Errorf("name can't be empty")),
-		)
-		return
-	}
-
-	if len(game.Name) > maxLenGameName {
-		ctx.JSON(
-			http.StatusUnprocessableEntity,
-			web.ErrorResponse(fmt.Errorf("name of game is too long")),
-		)
-		return
-	}
-
-	check, _, err := actions.CheckGameByName(ctx, game.Name, h.Storage)
-	if err != nil {
-		ctx.JSON(http.StatusBadRequest, web.ErrorResponse(err))
-		return
-	}
-
-	if check {
-		ctx.JSON(http.StatusOK, web.ExistResponse())
 		return
 	}
 

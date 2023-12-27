@@ -1,12 +1,17 @@
 package actions
 
 import (
+	"fmt"
 	"gamelib/internal/entities"
 	"gamelib/internal/storage/db"
+	"gamelib/pkg/web"
 	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
 const (
+	maxLenGameName = 150
+
 	directUp  = "../"
 	PathGrids = "assets/static/grids/"
 )
@@ -16,7 +21,29 @@ func GetGame(ctx *gin.Context, id int64, storage *db.Storage) (*entities.Game, e
 }
 
 func CreateGame(ctx *gin.Context, game *entities.CreateGame, storage *db.Storage) (*entities.Game, error) {
-	game.Image = directUp + PathGrids + game.Image
+	if len(game.Name) == 0 {
+		return nil, fmt.Errorf("name can't be empty")
+	}
+
+	if len(game.Name) > maxLenGameName {
+		return nil, fmt.Errorf("name of game is too long")
+	}
+
+	check, result, err := CheckGameByName(ctx, game.Name, storage)
+	if err != nil {
+		return nil, err
+	}
+
+	if check {
+		ctx.JSON(http.StatusOK, web.ExistResponse())
+		return result, nil
+	}
+
+	if game.Image != nil {
+		newName := directUp + PathGrids + *game.Image
+		game.Image = &newName
+	}
+
 	return db.CreateGame(ctx, game, storage.DataBase)
 }
 

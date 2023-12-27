@@ -1,8 +1,19 @@
 function getInfo() {
-    let obj = {
-        name: $("#inputNewGame").val(),
-        image: $('#gridForGame').get(0).files[0].name
-    };
+    let obj;
+
+    if ($('#gridForGame').get(0).files[0]) {
+        obj = {
+            name: $("#inputNewGame").val(),
+            done: $(".flexChecked").is(":checked"),
+            image: $('#gridForGame').get(0).files[0].name
+        };
+    } else {
+        obj = {
+            name: $("#inputNewGame").val(),
+            done: $(".flexChecked").is(":checked"),
+        };
+    }
+
     return JSON.stringify(obj);
 }
 
@@ -13,14 +24,22 @@ function aggregationImg() {
 }
 
 async function saveImg() {
-    $.ajax({
-        url: 'api/image/' + $('#gridForGame').get(0).files[0].name,
-        method: 'POST',
-        data: aggregationImg(),
-        async: false,
-        contentType: false, // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
-        processData: false, // NEEDED, DON'T OMIT THIS
-    });
+    if ($('#gridForGame').get(0).files[0]) {
+        $.ajax({
+            url: 'api/image/' + $('#gridForGame').get(0).files[0].name,
+            method: 'POST',
+            data: aggregationImg(),
+            async: false,
+            contentType: false, // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
+            processData: false, // NEEDED, DON'T OMIT THIS
+        });
+    }
+}
+
+function clearInputForm() {
+    $('#inputNewGame').val("");
+    $('#gridForGame').val("");
+    $(".flexChecked").prop('checked', false);
 }
 
 function createGame() {
@@ -31,9 +50,8 @@ function createGame() {
         data: getInfo(),
         statusCode: {
             201: async function () {
-                saveImg();
-                $('#inputNewGame').val("");
-                $('#gridForGame').val("");
+                await saveImg();
+                clearInputForm();
                 updateTable();
                 $('#addGameModal').modal('toggle');
             },
