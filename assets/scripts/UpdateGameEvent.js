@@ -77,7 +77,7 @@ function updateGame(id) {
                 alert("Игра уже есть в списке");
             },
             201: async function () {
-                await saveImg($('#updateGridButton').get(0).files[0], $('#updateGridButton').get(0).files[0].name);
+                await saveImg($('#updateGridButton').get(0).files[0]);
                 $('#updateGameModal').modal('toggle');
                 updateTable();
             },

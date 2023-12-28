@@ -4,10 +4,10 @@ function aggregationImg(date) {
     return formData
 }
 
-async function saveImg(date, name) {
+async function saveImg(date) {
     if (date) {
         $.ajax({
-            url: 'api/image/' + name,
+            url: 'api/image/' + date.name,
             method: 'POST',
             data: aggregationImg(date),
             async: false,

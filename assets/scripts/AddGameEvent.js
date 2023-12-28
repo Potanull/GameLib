@@ -34,7 +34,7 @@ function createGame() {
                 alert("Игра уже есть в списке");
             },
             201: async function () {
-                await saveImg($('#gridForGame').get(0).files[0], $('#gridForGame').get(0).files[0].name);
+                await saveImg($('#gridForGame').get(0).files[0]);
                 clearInputForm();
                 updateTable();
                 $('#addGameModal').modal('toggle');
