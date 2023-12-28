@@ -34,12 +34,16 @@ $(document).on('click', '#buttonUpdateElem', function (event) {
         rows += `<label class="form-check-label" for="updateGameStatusInput">Статус</label>
             </div>   
             <div class="inputGrid mb-2">
-                <div class="mb-4 d-flex justify-content-center">
-                    <img id="selectedImage" src="${body.data.image_url}" class="mx-auto d-block">
-                </div>
-            </div>
-            <label class="btn btn-primary btn-rounded form-label text-white m-1" for="updateGridButton">Обложка</label>
-            <input type="file" class="form-control d-none" accept="image/png, image/jpeg" id="updateGridButton" onchange="displaySelectedImage(event, 'selectedImage')"/>
+                <div class="mb-4 d-flex justify-content-center">`
+
+        if (body.data.image_url) {
+            rows += `<img id="selectedImage" src="${body.data.image_url}" className="mx-auto d-block"></div></div>`
+        } else {
+            rows += `<img id="selectedImage" src="../assets/static/tmpGrid.png" className="mx-auto d-block"></div></div>`
+        }
+
+        rows += `<label class="btn btn-primary btn-rounded form-label text-white m-1" for="updateGridButton">Обложка</label>
+                <input type="file" class="form-control d-none" accept="image/png, image/jpeg" id="updateGridButton" onchange="displaySelectedImage(event, 'selectedImage')"/>
         `;
 
         $('#updateGameBody').html(rows);

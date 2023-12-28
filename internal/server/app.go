@@ -2,6 +2,7 @@ package server
 
 import (
 	"context"
+	"github.com/forbiddencoding/howlongtobeat"
 	"net/http"
 
 	"gamelib/internal/storage/db"
@@ -11,6 +12,7 @@ import (
 type Server struct {
 	httpServer *http.Server
 	Storage    *db.Storage
+	HLTB       *howlongtobeat.Client
 }
 
 func NewServer(cfg *config.Config) (*Server, error) {
@@ -19,8 +21,14 @@ func NewServer(cfg *config.Config) (*Server, error) {
 		return nil, err
 	}
 
+	hltb, err := howlongtobeat.New()
+	if err != nil {
+		return nil, err
+	}
+
 	return &Server{
 		Storage: &storage,
+		HLTB:    hltb,
 	}, nil
 }
 

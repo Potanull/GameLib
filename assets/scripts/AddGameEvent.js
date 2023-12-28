@@ -5,12 +5,14 @@ function getInfoForAdd() {
         obj = {
             name: $("#inputNewGame").val(),
             done: $(".flexChecked").is(":checked"),
-            image: $('#gridForGame').get(0).files[0].name
+            image: $('#gridForGame').get(0).files[0].name,
+            find_grid: $(".findHltbGrid").is(":checked")
         };
     } else {
         obj = {
             name: $("#inputNewGame").val(),
             done: $(".flexChecked").is(":checked"),
+            find_grid: $(".findHltbGrid").is(":checked")
         };
     }
 
@@ -21,6 +23,7 @@ function clearInputForm() {
     $('#inputNewGame').val("");
     $('#gridForGame').val("");
     $(".flexChecked").prop('checked', false);
+    $(".findHltbGrid").prop('checked', false);
 }
 
 function createGame() {

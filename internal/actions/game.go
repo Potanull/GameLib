@@ -6,6 +6,7 @@ import (
 	"gamelib/internal/storage/db"
 	"gamelib/pkg/web"
 	"github.com/gin-gonic/gin"
+	"log"
 	"net/http"
 	"os"
 	"strings"
@@ -41,7 +42,7 @@ func CreateGame(ctx *gin.Context, game *entities.CreateGame, storage *db.Storage
 		return result, nil
 	}
 
-	if game.Image != nil {
+	if !game.FindGrid && game.Image != nil {
 		newName := directUp + PathGrids + *game.Image
 		game.Image = &newName
 	}
@@ -62,7 +63,7 @@ func DeleteGame(ctx *gin.Context, id int64, storage *db.Storage) (*entities.Game
 	if game.ImageURL != nil {
 		err = os.Remove(strings.TrimPrefix(*game.ImageURL, directUp))
 		if err != nil {
-			return nil, err
+			log.Println(err)
 		}
 	}
 

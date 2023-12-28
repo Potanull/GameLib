@@ -98,6 +98,18 @@ func (h *Handler) PostGame(ctx *gin.Context) {
 		return
 	}
 
+	if game.FindGrid {
+		searchGame, err := actions.FindGame(ctx, game, h.HLTB)
+		if err != nil {
+			ctx.JSON(http.StatusBadRequest, web.ErrorResponse(err))
+			return
+		}
+
+		if searchGame != nil {
+			game.Image = actions.GetImage(searchGame.GameImage)
+		}
+	}
+
 	result, err := actions.CreateGame(ctx, game, h.Storage)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, web.ErrorResponse(err))

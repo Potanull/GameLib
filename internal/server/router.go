@@ -11,7 +11,7 @@ func (s *Server) configureRoutes() *gin.Engine {
 	router.Static("/assets", "./assets")
 	router.LoadHTMLGlob("templates/*")
 
-	h := handlers.NewHandler(s.Storage)
+	h := handlers.NewHandler(s.Storage, s.HLTB)
 
 	router.GET("/", h.MainPage)
 
