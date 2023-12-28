@@ -22,7 +22,7 @@ type CreateGame struct {
 }
 
 type UpdateGame struct {
-	ID   int64  `json:"id"`
-	Name string `json:"name"`
-	Done *bool  `json:"done"`
+	Name     string  `json:"name"`
+	Done     *bool   `json:"done"`
+	ImageURL *string `json:"image_url"`
 }

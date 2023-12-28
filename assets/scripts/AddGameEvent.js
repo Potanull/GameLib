@@ -1,4 +1,4 @@
-function getInfo() {
+function getInfoForAdd() {
     let obj;
 
     if ($('#gridForGame').get(0).files[0]) {
@@ -17,25 +17,6 @@ function getInfo() {
     return JSON.stringify(obj);
 }
 
-function aggregationImg() {
-    var formData = new FormData();
-    formData.append('image', $('#gridForGame').get(0).files[0]);
-    return formData
-}
-
-async function saveImg() {
-    if ($('#gridForGame').get(0).files[0]) {
-        $.ajax({
-            url: 'api/image/' + $('#gridForGame').get(0).files[0].name,
-            method: 'POST',
-            data: aggregationImg(),
-            async: false,
-            contentType: false, // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
-            processData: false, // NEEDED, DON'T OMIT THIS
-        });
-    }
-}
-
 function clearInputForm() {
     $('#inputNewGame').val("");
     $('#gridForGame').val("");
@@ -47,22 +28,22 @@ function createGame() {
         url: '/api/v1/game/',
         method: 'POST',
         dataType: 'json',
-        data: getInfo(),
+        data: getInfoForAdd(),
         statusCode: {
+            200: function () {
+                alert("Игра уже есть в списке");
+            },
             201: async function () {
-                await saveImg();
+                await saveImg($('#gridForGame').get(0).files[0], $('#gridForGame').get(0).files[0].name);
                 clearInputForm();
                 updateTable();
                 $('#addGameModal').modal('toggle');
             },
-            200: function () {
-                alert("Игра уже есть в списке");
+            400: function () {
+                alert("Что-то пошло не так!");
             },
             422: function () {
                 alert("Имя игры слишком большое или пустое");
-            },
-            400: function () {
-                alert("Что-то пошло не так!");
             }
         }
     });

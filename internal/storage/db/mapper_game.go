@@ -101,6 +101,10 @@ func PutGame(_ *gin.Context, id int64, updateGame *entities.UpdateGame, repo *sq
 		query = query.Set(NameCol, updateGame.Name)
 	}
 
+	if updateGame.ImageURL != nil {
+		query = query.Set(ImageUrlCol, updateGame.ImageURL)
+	}
+
 	rows, err := query.PlaceholderFormat(sq.Dollar).
 		RunWith(repo.DB).Query()
 	if err != nil {
