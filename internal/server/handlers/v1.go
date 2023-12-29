@@ -80,14 +80,14 @@ func (h *Handler) GetRandomGame(ctx *gin.Context) {
 
 func (h *Handler) GetRandomListGames(ctx *gin.Context) {
 	done := ctx.GetBool("done")
-	randimGames, err := actions.GetRandomListGames(ctx, done, h.Storage)
+	randomGames, err := actions.GetRandomListGames(ctx, done, h.Storage)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, web.ErrorResponse(err))
 		return
 	}
 
 	ctx.JSON(http.StatusOK, gin.H{
-		"data": randimGames,
+		"data": randomGames,
 	})
 }
 

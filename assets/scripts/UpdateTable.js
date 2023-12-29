@@ -8,7 +8,7 @@ function updateTable() {
         }
 
         body['data'].forEach(function (obj) {
-            rows += `<div class="card" data-name=${obj.name}>
+            rows += `<div class="card" data-name="${obj.name}">
                         <div class="poster">
                             <input class="form-check-input statusCheckBox" type="checkbox"
                                    value=${obj.id} `
@@ -20,9 +20,9 @@ function updateTable() {
             }
 
             if (obj.image_url) {
-                rows += `<img src="${obj.image_url}">`
+                rows += `<img src="${obj.image_url}" alt="${obj.name}">`
             } else {
-                rows += `<img src="../assets/static/tmpGrid.png">`
+                rows += `<img src="../assets/static/tmpGrid.png" alt="${obj.name}">`
             }
             rows += `<button type="button" id="buttonDeleteElem"
                             class="btn btn-danger btn-sm text-center deleteElemButton" name="buttonDelete"
@@ -35,6 +35,7 @@ function updateTable() {
                     </div>
                     <div class="details" id="gameDetails">
                         <h1>${obj.name}</h1>
+                        
                     </div>
                 </div>`;
         });

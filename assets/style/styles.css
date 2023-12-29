@@ -159,6 +159,13 @@ progress {
     z-index: 1;
     height: 2em;
     width: 2em;
+    overflow: hidden;
+    translate: 0 -4em;
+    transition: .3s;
+}
+
+.poster:hover > .deleteElemButton {
+    translate: 0 0;
 }
 
 .poster .updateElemButton {
@@ -173,4 +180,24 @@ progress {
     z-index: 1;
     height: 2em;
     width: 2em;
+    overflow: hidden;
+    translate: 0 -4em;
+    transition: .3s;
+}
+
+.poster:hover > .updateElemButton {
+    translate: 0 0;
+}
+
+.poster > .statusCheckBox:checked {
+    translate: 0 0;
+}
+
+.poster .statusCheckBox {
+    transition: .3s;
+    translate: 0 -4em;
+}
+
+.poster:hover > .statusCheckBox {
+    translate: 0 0;
 }

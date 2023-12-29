@@ -151,7 +151,7 @@
             {{ if $val.ImageURL }}
             <img src={{ $val.ImageURL }} alt={{ $val.Name }}>
             {{ else }}
-            <img src="../assets/static/tmpGrid.png">
+            <img src="../assets/static/tmpGrid.png" alt={{ $val.Name }}>
             {{ end }}
             <button type="button" id="buttonDeleteElem"
                     class="btn btn-danger btn-sm text-center deleteElemButton" name="buttonDelete"
@@ -164,6 +164,10 @@
         </div>
         <div class="details" id="gameDetails">
             <h1>{{ $val.Name }}</h1>
+            <div class="row">
+                <div class="col-md-6 mx-auto">Main: 1411½ H</div>
+                <div class="col-md-6 mx-auto">Full: 1411½ H</div>
+            </div>
         </div>
     </div>
     {{ end }}
