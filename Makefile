@@ -1,11 +1,13 @@
+PARAMS := $(wordlist 2,100,${MAKECMDGOALS})
+
 .PHONY: start-db
 start-db:
-	docker-compose up
+	docker-compose up -d migrate ${PARAMS}
 
 .PHONY: drop-db
 drop-db:
-	docker-compose down
+	docker-compose rm --stop --force
 
 .PHONY: runserver
 runserver:
-	go run .\cmd\main.go
+	go run ./cmd/server/main.go

@@ -43,8 +43,7 @@ $(document).on('click', '#buttonUpdateElem', function (event) {
         }
 
         rows += `<label class="btn btn-primary btn-rounded form-label text-white m-1" for="updateGridButton">Обложка</label>
-                <input type="file" class="form-control d-none" accept="image/png, image/jpeg" id="updateGridButton" onchange="displaySelectedImage(event, 'selectedImage')"/>
-        `;
+                <input type="file" class="form-control d-none" accept="image/png, image/jpeg" id="updateGridButton" onchange="displaySelectedImage(event, 'selectedImage')"/>`;
 
         $('#updateGameBody').html(rows);
         $('#buttonUpdate').attr('value', id);

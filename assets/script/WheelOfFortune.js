@@ -1,6 +1,5 @@
 function getListGames() {
     let res = [];
-
     $.ajax({
         url: '/api/v1/game/random/list',
         method: 'GET',
@@ -54,10 +53,8 @@ $(document).on('click', '#buttonSpin', function () {
         return 1;
     });
 
-// declare an arc generator function
     var arc = d3.svg.arc().outerRadius(r);
 
-// select paths, use arc generator to draw
     var arcs = vis.selectAll("g.slice")
         .data(pie)
         .enter()
@@ -75,7 +72,6 @@ $(document).on('click', '#buttonSpin', function () {
             return arc(d);
         });
 
-    // add the text
     arcs.append("text").attr("transform", function (d) {
         d.innerRadius = 0;
         d.outerRadius = r;
@@ -87,14 +83,6 @@ $(document).on('click', '#buttonSpin', function () {
 
     container.on("click", spin);
 
-    //make arrow
-    // svg.append("g")
-    //     .attr("transform", "translate(" + (w + padding.left + padding.right) + "," + ((h / 2) + padding.top) + ")")
-    //     .append("path")
-    //     .attr("d", "M-" + (r * .15) + ",0L0," + (r * .05) + "L0,-" + (r * .05) + "Z")
-    //     .style({"fill": "black", "margin": "auto",});
-
-    //draw spin circle
     container.append("circle")
         .attr("cx", 0)
         .attr("cy", 0)
@@ -104,7 +92,6 @@ $(document).on('click', '#buttonSpin', function () {
             "stroke-width": "2px", "cursor": "pointer"
         });
 
-    //spin text
     container.append("text")
         .attr("x", 0)
         .attr("y", 0)
@@ -113,10 +100,8 @@ $(document).on('click', '#buttonSpin', function () {
         .style({"font-weight": "bold", "font-size": "30px", "fill": "black"});
 
     function spin(d) {
-
         container.on("click", null);
 
-        //all slices have been seen, all done
         if (oldpick.length == data.length) {
             container.on("click", null);
             return;
@@ -130,7 +115,6 @@ $(document).on('click', '#buttonSpin', function () {
 
         picked = Math.round(data.length - (rotation % 360) / ps);
         picked = picked >= data.length ? (picked % data.length) : picked;
-
 
         if (oldpick.indexOf(picked) !== -1) {
             d3.select(this).call(spin);
@@ -150,7 +134,6 @@ $(document).on('click', '#buttonSpin', function () {
                 d3.select(".slice:nth-child(" + (picked + 1) + ") path").attr("fill", "#212529");
 
                 d3.select("#valueWheelOfFortune h1").style({
-                    "color": "black",
                     "font-size": "20px"
                 }).text(data[picked].value);
 
@@ -163,22 +146,5 @@ $(document).on('click', '#buttonSpin', function () {
         return function (t) {
             return "rotate(" + i(t) + ")";
         };
-    }
-
-
-    function getRandomNumbers() {
-        var array = new Uint16Array(1000);
-        var scale = d3.scale.linear().range([360, 1440]).domain([0, 100000]);
-
-        if (window.hasOwnProperty("crypto") && typeof window.crypto.getRandomValues === "function") {
-            window.crypto.getRandomValues(array);
-        } else {
-            //no support for crypto, get crappy random numbers
-            for (var i = 0; i < 1000; i++) {
-                array[i] = Math.floor(Math.random() * 100000) + 1;
-            }
-        }
-
-        return array;
     }
 })

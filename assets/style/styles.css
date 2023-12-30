@@ -1,13 +1,30 @@
-@import 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet';
+@import 'https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet';
 
 body {
     font-family: "Inter", sans-serif;
-    font-size: 1.2rem;
-    /*height: 100vh;*/
     overflow-y: auto;
     margin: 0 1.5em;
-    padding: 2rem;
-    color: white;
+    padding: 1.2rem;
+    min-width: 260px;
+}
+
+#mainIcon {
+    display: grid;
+    align-content: center;
+    grid-template-columns: auto auto auto;
+    grid-gap: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+#mainIcon > h1 {
+    font-size: 2rem;
+    margin: 0;
+}
+
+#mainIcon > img {
+    width: 4rem;
+    height: 4rem;
 }
 
 *,

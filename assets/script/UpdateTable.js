@@ -35,11 +35,9 @@ function updateTable() {
                     </div>
                     <div class="details" id="gameDetails">
                         <h1>${obj.name}</h1>
-                        
                     </div>
                 </div>`;
         });
-
 
         $('#gameTable').html(rows);
     });
