@@ -8,19 +8,32 @@ import (
 
 const imagePath = "https://howlongtobeat.com/games/"
 
-func GetImage(path string) *string {
+func ParseHltbImage(path string) *string {
 	result := imagePath + path
 	return &result
 }
 
-func FindGame(ctx *gin.Context, game *entities.CreateGame, hltb *howlongtobeat.Client) (*howlongtobeat.SearchGameData, error) {
-	searchResults, err := hltb.Search(ctx, game.Name, howlongtobeat.SearchModifierNone, nil)
+func GetHltbGame(ctx *gin.Context, id int, hltb *howlongtobeat.Client) (*howlongtobeat.GameDetailSimple, error) {
+	return hltb.DetailSimple(ctx, id)
+}
+
+func FindHltbGame(ctx *gin.Context, game *entities.CreateGame, hltb *howlongtobeat.Client) (*howlongtobeat.SearchGameSimple, error) {
+	searchResults, err := hltb.SearchSimple(ctx, game.Name, howlongtobeat.SearchModifierHideDLC)
 	if err != nil {
 		return nil, err
 	}
 
-	if len(searchResults.Data) > 0 {
-		return &searchResults.Data[0], nil
+	if len(searchResults) > 0 {
+		return searchResults[0], nil
 	}
 	return nil, err
+}
+
+func FindHltbGames(ctx *gin.Context, game *entities.CreateGame, hltb *howlongtobeat.Client) ([]*howlongtobeat.SearchGameSimple, error) {
+	searchResults, err := hltb.SearchSimple(ctx, game.Name, howlongtobeat.SearchModifierHideDLC)
+	if err != nil {
+		return nil, err
+	}
+
+	return searchResults, err
 }

@@ -3,8 +3,6 @@
     display: block;
     /* ставим всё по центру */
     overflow: hidden;
-    min-height: 150px;
-    height: 150px;
     margin-bottom: 0;
     margin-top: 0;
 }

@@ -1,4 +1,4 @@
-function updateTable() {
+function refreshTable() {
     $.getJSON('/api/v1/game/all', function (body) {
         let rows = "";
 
@@ -35,10 +35,21 @@ function updateTable() {
                     </div>
                     <div class="details" id="gameDetails">
                         <h1>${obj.name}</h1>
+                        <div class="row">
+                            <div class="col-md-6 mx-auto" style="font-size: .75rem">Main: ${obj.hltb_main_time} H</div>
+                            <div class="col-md-6 mx-auto" style="font-size: .75rem">Full: ${obj.hltb_full_time} H</div>
+                        </div>
                     </div>
                 </div>`;
         });
 
         $('#gameTable').html(rows);
+        $.each($("#gameTable div.card"), function () {
+            if (this.getAttribute("data-name").toLowerCase().indexOf($("#search").val().toLowerCase()) == -1) {
+                $(this).hide();
+            } else {
+                $(this).show();
+            }
+        });
     });
 }

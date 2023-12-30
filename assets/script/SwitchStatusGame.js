@@ -4,7 +4,7 @@ $(document).on('change', '.statusCheckBox', function (event) {
         method: 'PUT',
         dataType: 'json',
         success: function () {
-            updateTable();
+            refreshTable();
         }
     });
 });

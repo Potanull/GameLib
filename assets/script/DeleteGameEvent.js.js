@@ -4,7 +4,7 @@ $(document).on('click', '#buttonDeleteElem', function (event) {
         method: 'DELETE',
         dataType: 'json',
         success: function () {
-            updateTable();
+            refreshTable();
         }
     });
 });

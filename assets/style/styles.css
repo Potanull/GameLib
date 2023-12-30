@@ -22,6 +22,10 @@ body {
     margin: 0;
 }
 
+.list-group-item-action > h6 {
+    text-align:center;
+}
+
 #mainIcon > img {
     width: 4rem;
     height: 4rem;
@@ -117,8 +121,6 @@ progress {
     display: grid;
     /* если что-то не помещается на своё место — скрываем то, что не поместилось */
     overflow: hidden;
-    min-height: 750px;
-    height: 750px;
     margin-bottom: 0;
 }
 

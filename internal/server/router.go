@@ -18,6 +18,7 @@ func (s *Server) configureRoutes() *gin.Engine {
 	apiGroup := router.Group("/api/")
 	{
 		apiGroup.POST("/image/:name", h.PostImage)
+		apiGroup.GET("/hltb/search/", h.SearchGameByName)
 		v1Group := apiGroup.Group("/v1/")
 		{
 			gameGroup := v1Group.Group("/game/")

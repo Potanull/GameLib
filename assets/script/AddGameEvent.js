@@ -1,8 +1,9 @@
-function getInfoForAdd() {
+function getInfoForAdd(hltd_id) {
     let obj;
 
     if ($('#gridForGame').get(0).files[0]) {
         obj = {
+            hltb_id: hltd_id,
             name: $("#inputNewGame").val(),
             done: $(".flexChecked").is(":checked"),
             image: $('#gridForGame').get(0).files[0].name,
@@ -10,6 +11,7 @@ function getInfoForAdd() {
         };
     } else {
         obj = {
+            hltb_id: hltd_id,
             name: $("#inputNewGame").val(),
             done: $(".flexChecked").is(":checked"),
             find_grid: $(".findHltbGrid").is(":checked")
@@ -22,16 +24,19 @@ function getInfoForAdd() {
 function clearInputForm() {
     $('#inputNewGame').val("");
     $('#gridForGame').val("");
+    $('#searchAddGameHLTB').val("");
+    $('#addListGameHLTB').html("");
     $(".flexChecked").prop('checked', false);
     $(".findHltbGrid").prop('checked', false);
 }
 
 function createGame() {
+    let hltd_id = Number($('#gameHLTB').attr("value"))
     $.ajax({
         url: '/api/v1/game/',
         method: 'POST',
         dataType: 'json',
-        data: getInfoForAdd(),
+        data: getInfoForAdd(hltd_id),
         statusCode: {
             200: function () {
                 alert("Игра уже есть в списке");
@@ -39,7 +44,7 @@ function createGame() {
             201: async function () {
                 await saveImg($('#gridForGame').get(0).files[0]);
                 clearInputForm();
-                updateTable();
+                refreshTable();
                 $('#addGameModal').modal('toggle');
             },
             400: function () {

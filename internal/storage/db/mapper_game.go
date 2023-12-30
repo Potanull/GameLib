@@ -19,12 +19,16 @@ const (
 
 	ImageUrlCol = "image_url"
 
+	HowLongToBeatIDCol       = "hltb_id"
+	HowLongToBeatMainTimeCol = "hltb_main_time"
+	HowLongToBeatFullTimeCol = "hltb_full_time"
+
 	CreateDTCol = "create_dt"
 	UpdateDTCol = "update_dt"
 )
 
 var GamesMainCols = []string{NameCol, DoneCol}
-var GamesBaseCols = []string{NameCol, DoneCol, ImageUrlCol}
+var GamesBaseCols = []string{NameCol, DoneCol, ImageUrlCol, HowLongToBeatIDCol, HowLongToBeatMainTimeCol, HowLongToBeatFullTimeCol}
 var GamesAllCols = append([]string{IDCol, CreateDTCol, UpdateDTCol}, GamesBaseCols...)
 
 func GetGame(_ *gin.Context, id int64, repo *sqlx.DB) (*entities.Game, error) {
@@ -48,6 +52,9 @@ func GetGame(_ *gin.Context, id int64, repo *sqlx.DB) (*entities.Game, error) {
 			&game.Name,
 			&game.Done,
 			&game.ImageURL,
+			&game.HowLongToBeatID,
+			&game.HowLongToBeatMainTime,
+			&game.HowLongToBeatFullTime,
 		); err != nil {
 			return nil, err
 		}
@@ -61,8 +68,9 @@ func GetGame(_ *gin.Context, id int64, repo *sqlx.DB) (*entities.Game, error) {
 
 func CreateGame(_ *gin.Context, createGame *entities.CreateGame, repo *sqlx.DB) (*entities.Game, error) {
 	rows, err := sq.Insert(GamesTabler).
-		Columns(NameCol, DoneCol, ImageUrlCol).
-		Values(createGame.Name, createGame.Done, createGame.Image).
+		Columns(GamesBaseCols...).
+		Values(createGame.Name, createGame.Done, createGame.Image,
+			createGame.HowLongToBeatID, createGame.HowLongToBeatMainTime, createGame.HowLongToBeatFullTime).
 		Suffix(fmt.Sprintf("RETURNING %s", strings.Join(GamesAllCols, ","))).
 		PlaceholderFormat(sq.Dollar).
 		RunWith(repo.DB).Query()
@@ -80,6 +88,9 @@ func CreateGame(_ *gin.Context, createGame *entities.CreateGame, repo *sqlx.DB) 
 			&result.Name,
 			&result.Done,
 			&result.ImageURL,
+			&result.HowLongToBeatID,
+			&result.HowLongToBeatMainTime,
+			&result.HowLongToBeatFullTime,
 		); err != nil {
 			return nil, err
 		}
@@ -105,6 +116,12 @@ func PutGame(_ *gin.Context, id int64, updateGame *entities.UpdateGame, repo *sq
 		query = query.Set(ImageUrlCol, updateGame.ImageURL)
 	}
 
+	if updateGame.HowLongToBeatID != 0 {
+		query = query.Set(HowLongToBeatIDCol, updateGame.HowLongToBeatID)
+		query = query.Set(HowLongToBeatMainTimeCol, updateGame.HowLongToBeatMainTime)
+		query = query.Set(HowLongToBeatFullTimeCol, updateGame.HowLongToBeatFullTime)
+	}
+
 	rows, err := query.PlaceholderFormat(sq.Dollar).
 		RunWith(repo.DB).Query()
 	if err != nil {
@@ -120,6 +137,9 @@ func PutGame(_ *gin.Context, id int64, updateGame *entities.UpdateGame, repo *sq
 			&result.Name,
 			&result.Done,
 			&result.ImageURL,
+			&result.HowLongToBeatID,
+			&result.HowLongToBeatMainTime,
+			&result.HowLongToBeatFullTime,
 		); err != nil {
 			return nil, err
 		}
@@ -148,6 +168,9 @@ func DeleteGame(_ *gin.Context, id int64, repo *sqlx.DB) (*entities.Game, error)
 			&result.Name,
 			&result.Done,
 			&result.ImageURL,
+			&result.HowLongToBeatID,
+			&result.HowLongToBeatMainTime,
+			&result.HowLongToBeatFullTime,
 		); err != nil {
 			return nil, err
 		}
@@ -179,6 +202,9 @@ func GetGameByName(_ *gin.Context, name string, repo *sqlx.DB) (*entities.Game, 
 			&game.Name,
 			&game.Done,
 			&game.ImageURL,
+			&game.HowLongToBeatID,
+			&game.HowLongToBeatMainTime,
+			&game.HowLongToBeatFullTime,
 		); err != nil {
 			return nil, err
 		}
@@ -213,6 +239,9 @@ func GetAllGames(_ *gin.Context, repo *sqlx.DB) ([]*entities.Game, error) {
 			&tmp.Name,
 			&tmp.Done,
 			&tmp.ImageURL,
+			&tmp.HowLongToBeatID,
+			&tmp.HowLongToBeatMainTime,
+			&tmp.HowLongToBeatFullTime,
 		); err != nil {
 			return gameList, err
 		}

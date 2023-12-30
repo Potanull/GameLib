@@ -4,7 +4,10 @@ import (
 	"gamelib/internal/actions"
 	"gamelib/internal/entities"
 	"gamelib/pkg/web"
+	"github.com/forbiddencoding/howlongtobeat"
 	"github.com/gin-gonic/gin"
+	"log"
+	"math"
 	"net/http"
 	"strconv"
 )
@@ -98,16 +101,34 @@ func (h *Handler) PostGame(ctx *gin.Context) {
 		return
 	}
 
-	if game.FindGrid {
-		searchGame, err := actions.FindGame(ctx, game, h.HLTB)
+	var err error
+	var resultHLTB *howlongtobeat.GameDetailSimple
+
+	if game.HowLongToBeatID != 0 {
+		resultHLTB, err = actions.GetHltbGame(ctx, game.HowLongToBeatID, h.HLTB)
+		if err != nil {
+			log.Println(err)
+		}
+	}
+
+	if game.FindGrid && resultHLTB != nil {
+		game.Image = actions.ParseHltbImage(resultHLTB.GameImage)
+	} else if game.FindGrid {
+		searchGame, err := actions.FindHltbGame(ctx, game, h.HLTB)
 		if err != nil {
 			ctx.JSON(http.StatusBadRequest, web.ErrorResponse(err))
 			return
 		}
 
 		if searchGame != nil {
-			game.Image = actions.GetImage(searchGame.GameImage)
+			game.Image = actions.ParseHltbImage(searchGame.GameImage)
 		}
+	}
+
+	if resultHLTB != nil {
+		game.HowLongToBeatID = resultHLTB.GameID
+		game.HowLongToBeatMainTime = int(math.Round(resultHLTB.CompMain))
+		game.HowLongToBeatFullTime = int(math.Round(resultHLTB.CompPlus))
 	}
 
 	result, err := actions.CreateGame(ctx, game, h.Storage)
@@ -132,6 +153,20 @@ func (h *Handler) PutGame(ctx *gin.Context) {
 	if err := ctx.ShouldBindJSON(&game); err != nil {
 		ctx.JSON(http.StatusBadRequest, web.ErrorResponse(err))
 		return
+	}
+
+	if game.HowLongToBeatID != 0 {
+		gameHLTB, err := actions.GetHltbGame(ctx, game.HowLongToBeatID, h.HLTB)
+		if err != nil {
+			return
+		}
+
+		game.HowLongToBeatMainTime = int(math.Round(gameHLTB.CompMain))
+		game.HowLongToBeatFullTime = int(math.Round(gameHLTB.CompPlus))
+
+		if *game.FindGrid {
+			game.ImageURL = actions.ParseHltbImage(gameHLTB.GameImage)
+		}
 	}
 
 	result, err := actions.PutGame(ctx, id, game, h.Storage)
@@ -179,31 +214,4 @@ func (h *Handler) ReverseDoneStatus(ctx *gin.Context) {
 	ctx.JSON(http.StatusCreated, gin.H{
 		"status": "ok",
 	})
-}
-
-func (h *Handler) PostImage(ctx *gin.Context) {
-	img, err := ctx.FormFile("image")
-	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"status": "image error",
-		})
-		return
-	}
-
-	imgName := ctx.Param("name")
-	if len(imgName) == 0 {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"status": "image name error",
-		})
-		return
-	}
-
-	if err := ctx.SaveUploadedFile(img, actions.PathGrids+imgName); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"status": "error",
-		})
-		return
-	}
-
-	ctx.String(http.StatusOK, "Files uploaded")
 }
