@@ -215,3 +215,21 @@ func (h *Handler) ReverseDoneStatus(ctx *gin.Context) {
 		"status": "ok",
 	})
 }
+
+func (h *Handler) ReverseFavoriteStatus(ctx *gin.Context) {
+	id, err := strconv.ParseInt(ctx.Param("id"), 10, 64)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, web.ErrorResponse(err))
+		return
+	}
+
+	err = actions.ReverseFavoriteStatus(ctx, id, h.Storage)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, web.ErrorResponse(err))
+		return
+	}
+
+	ctx.JSON(http.StatusCreated, gin.H{
+		"status": "ok",
+	})
+}

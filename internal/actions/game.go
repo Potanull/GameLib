@@ -97,3 +97,7 @@ func CheckGameByName(ctx *gin.Context, name string, storage *db.Storage) (bool, 
 func ReverseDoneStatus(ctx *gin.Context, id int64, storage *db.Storage) error {
 	return db.ReverseDoneStatus(ctx, id, storage.DataBase)
 }
+
+func ReverseFavoriteStatus(ctx *gin.Context, id int64, storage *db.Storage) error {
+	return db.ReverseFavoriteStatus(ctx, id, storage.DataBase)
+}

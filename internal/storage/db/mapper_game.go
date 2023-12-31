@@ -13,9 +13,10 @@ import (
 const (
 	GamesTabler = "gamelib.t_games"
 
-	IDCol   = "id"
-	DoneCol = "done"
-	NameCol = "name"
+	IDCol       = "id"
+	DoneCol     = "done"
+	NameCol     = "name"
+	FavoriteCol = "Favorite"
 
 	ImageUrlCol = "image_url"
 
@@ -28,7 +29,7 @@ const (
 )
 
 var GamesMainCols = []string{NameCol, DoneCol}
-var GamesBaseCols = []string{NameCol, DoneCol, ImageUrlCol, HowLongToBeatIDCol, HowLongToBeatMainTimeCol, HowLongToBeatFullTimeCol}
+var GamesBaseCols = []string{NameCol, DoneCol, FavoriteCol, ImageUrlCol, HowLongToBeatIDCol, HowLongToBeatMainTimeCol, HowLongToBeatFullTimeCol}
 var GamesAllCols = append([]string{IDCol, CreateDTCol, UpdateDTCol}, GamesBaseCols...)
 
 func GetGame(_ *gin.Context, id int64, repo *sqlx.DB) (*entities.Game, error) {
@@ -51,6 +52,7 @@ func GetGame(_ *gin.Context, id int64, repo *sqlx.DB) (*entities.Game, error) {
 			&game.UpdateDt,
 			&game.Name,
 			&game.Done,
+			&game.Favorite,
 			&game.ImageURL,
 			&game.HowLongToBeatID,
 			&game.HowLongToBeatMainTime,
@@ -87,6 +89,7 @@ func CreateGame(_ *gin.Context, createGame *entities.CreateGame, repo *sqlx.DB) 
 			&result.UpdateDt,
 			&result.Name,
 			&result.Done,
+			&result.Favorite,
 			&result.ImageURL,
 			&result.HowLongToBeatID,
 			&result.HowLongToBeatMainTime,
@@ -136,6 +139,7 @@ func PutGame(_ *gin.Context, id int64, updateGame *entities.UpdateGame, repo *sq
 			&result.UpdateDt,
 			&result.Name,
 			&result.Done,
+			&result.Favorite,
 			&result.ImageURL,
 			&result.HowLongToBeatID,
 			&result.HowLongToBeatMainTime,
@@ -167,6 +171,7 @@ func DeleteGame(_ *gin.Context, id int64, repo *sqlx.DB) (*entities.Game, error)
 			&result.UpdateDt,
 			&result.Name,
 			&result.Done,
+			&result.Favorite,
 			&result.ImageURL,
 			&result.HowLongToBeatID,
 			&result.HowLongToBeatMainTime,
@@ -201,6 +206,7 @@ func GetGameByName(_ *gin.Context, name string, repo *sqlx.DB) (*entities.Game, 
 			&game.UpdateDt,
 			&game.Name,
 			&game.Done,
+			&game.Favorite,
 			&game.ImageURL,
 			&game.HowLongToBeatID,
 			&game.HowLongToBeatMainTime,
@@ -220,7 +226,7 @@ func GetGameByName(_ *gin.Context, name string, repo *sqlx.DB) (*entities.Game, 
 func GetAllGames(_ *gin.Context, repo *sqlx.DB) ([]*entities.Game, error) {
 	rows, err := sq.Select(GamesAllCols...).
 		From(GamesTabler).
-		OrderBy(DoneCol, fmt.Sprintf("LOWER(%v)", NameCol)).
+		OrderBy(fmt.Sprintf("%s %s", FavoriteCol, "DESC"), DoneCol, fmt.Sprintf("LOWER(%v)", NameCol)).
 		PlaceholderFormat(sq.Dollar).
 		RunWith(repo.DB).Query()
 	defer rows.Close()
@@ -238,6 +244,7 @@ func GetAllGames(_ *gin.Context, repo *sqlx.DB) ([]*entities.Game, error) {
 			&tmp.UpdateDt,
 			&tmp.Name,
 			&tmp.Done,
+			&tmp.Favorite,
 			&tmp.ImageURL,
 			&tmp.HowLongToBeatID,
 			&tmp.HowLongToBeatMainTime,
@@ -374,6 +381,16 @@ func CheckGameByName(_ *gin.Context, name string, repo *sqlx.DB) (bool, *entitie
 
 func ReverseDoneStatus(_ *gin.Context, id int64, repo *sqlx.DB) error {
 	_, err := repo.DB.Exec("UPDATE gamelib.t_games SET DONE = NOT DONE WHERE id = $1 "+
+		fmt.Sprintf("RETURNING %s", strings.Join(GamesAllCols, ",")), id)
+
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func ReverseFavoriteStatus(_ *gin.Context, id int64, repo *sqlx.DB) error {
+	_, err := repo.DB.Exec("UPDATE gamelib.t_games SET FAVORITE = NOT FAVORITE WHERE id = $1 "+
 		fmt.Sprintf("RETURNING %s", strings.Join(GamesAllCols, ",")), id)
 
 	if err != nil {

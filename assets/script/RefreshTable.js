@@ -31,8 +31,17 @@ function refreshTable() {
                     <button type="button" id="buttonUpdateElem" data-bs-toggle="modal" data-bs-target="#updateGameModal"
                             class="btn btn-primary btn-sm text-center updateElemButton" name="buttonUpdate"
                             value="${obj.id}">
-                    </button>
-                    </div>
+                    </button>`
+
+            if (obj.favorite) {
+                rows += `<button class="btn btn-warning btn-sm text-center favoriteElemButton" id="favoriteElemButton"
+                        value="${obj.id}"></button>`
+            } else {
+                rows += `<button class="btn btn-secondary btn-sm text-center favoriteElemButton" id="favoriteElemButton"
+                        value="${obj.id}"></button>`
+            }
+
+            rows += `</div>
                     <div class="details" id="gameDetails">
                         <h1>${obj.name}</h1>
                         <div class="row">

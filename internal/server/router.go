@@ -31,9 +31,12 @@ func (s *Server) configureRoutes() *gin.Engine {
 				gameGroup.DELETE("/:id", h.DeleteGame)
 
 				gameGroup.GET("/all", h.GetAllGames)
+
 				gameGroup.GET("/random", h.GetRandomGame)
 				gameGroup.GET("/random/list", h.GetRandomListGames)
+
 				gameGroup.PUT("/reverse/status/:id", h.ReverseDoneStatus)
+				gameGroup.PUT("/reverse/favorite/:id", h.ReverseFavoriteStatus)
 			}
 		}
 	}

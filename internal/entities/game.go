@@ -5,9 +5,10 @@ import (
 )
 
 type Game struct {
-	ID   int64  `json:"id"`
-	Name string `json:"name"`
-	Done bool   `json:"done"`
+	ID       int64  `json:"id"`
+	Name     string `json:"name"`
+	Done     bool   `json:"done"`
+	Favorite bool   `json:"favorite"`
 
 	ImageURL *string `json:"image_url"`
 

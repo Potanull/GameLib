@@ -167,8 +167,7 @@ progress {
 }
 
 .poster .deleteElemButton {
-    background-image: url("/assets/static/icons8-delete-32.png");
-    background-size: 80% 80%;
+    background-image: url("/assets/static/x-square.svg");
     background-position: center;
     background-repeat: no-repeat;
     float: right;
@@ -188,8 +187,7 @@ progress {
 }
 
 .poster .updateElemButton {
-    background-image: url("/assets/static/icons8-edit-32.png");
-    background-size: 80% 80%;
+    background-image: url("/assets/static/plus.svg");
     background-position: center;
     background-repeat: no-repeat;
     float: right;
@@ -205,6 +203,26 @@ progress {
 }
 
 .poster:hover > .updateElemButton {
+    translate: 0 0;
+}
+
+.poster .favoriteElemButton {
+    background-image: url("/assets/static/star.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    float: right;
+    position: relative;
+    margin-top: 0.5em;
+    margin-right: 0.5em;
+    z-index: 1;
+    height: 2em;
+    width: 2em;
+    overflow: hidden;
+    translate: 0 -4em;
+    transition: .3s;
+}
+
+.poster:hover > .favoriteElemButton {
     translate: 0 0;
 }
 
