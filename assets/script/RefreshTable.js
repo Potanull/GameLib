@@ -25,19 +25,19 @@ function refreshTable() {
                 rows += `<img src="../assets/static/tmpGrid.png" alt="${obj.name}">`
             }
             rows += `<button type="button" id="buttonDeleteElem"
-                            class="btn btn-danger btn-sm text-center deleteElemButton" name="buttonDelete"
+                            class="btn btn-sm text-center deleteElemButton" name="buttonDelete"
                             value="${obj.id}">
                     </button>
                     <button type="button" id="buttonUpdateElem" data-bs-toggle="modal" data-bs-target="#updateGameModal"
-                            class="btn btn-primary btn-sm text-center updateElemButton" name="buttonUpdate"
+                            class="btn btn-sm text-center updateElemButton" name="buttonUpdate"
                             value="${obj.id}">
                     </button>`
 
             if (obj.favorite) {
-                rows += `<button class="btn btn-warning btn-sm text-center favoriteElemButton" id="favoriteElemButton"
+                rows += `<button class="btn btn-sm text-center favoriteElemButton favoriteFill" id="favoriteElemButton"
                         value="${obj.id}"></button>`
             } else {
-                rows += `<button class="btn btn-secondary btn-sm text-center favoriteElemButton" id="favoriteElemButton"
+                rows += `<button class="btn btn-sm text-center favoriteElemButton" id="favoriteElemButton"
                         value="${obj.id}"></button>`
             }
 

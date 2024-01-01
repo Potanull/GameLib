@@ -23,7 +23,7 @@ body {
 }
 
 .list-group-item-action > h6 {
-    text-align:center;
+    text-align: center;
 }
 
 #mainIcon > img {
@@ -167,9 +167,9 @@ progress {
 }
 
 .poster .deleteElemButton {
-    background-image: url("/assets/static/x-square.svg");
-    background-position: center;
-    background-repeat: no-repeat;
+    align-items: center;
+    cursor: pointer;
+    background: rgba(80, 80, 80, 0.6) url("/assets/static/delete.svg") no-repeat center;
     float: right;
     position: relative;
     margin-top: 0.5em;
@@ -187,9 +187,9 @@ progress {
 }
 
 .poster .updateElemButton {
-    background-image: url("/assets/static/plus.svg");
-    background-position: center;
-    background-repeat: no-repeat;
+    align-items: center;
+    cursor: pointer;
+    background: rgba(80, 80, 80, 0.6) url("/assets/static/edit.svg") no-repeat center;
     float: right;
     position: relative;
     margin-top: 0.5em;
@@ -207,9 +207,9 @@ progress {
 }
 
 .poster .favoriteElemButton {
-    background-image: url("/assets/static/star.svg");
-    background-position: center;
-    background-repeat: no-repeat;
+    align-items: center;
+    cursor: pointer;
+    background: rgba(80, 80, 80, 0.6) url("/assets/static/favorite.svg") no-repeat center;
     float: right;
     position: relative;
     margin-top: 0.5em;
@@ -222,6 +222,10 @@ progress {
     transition: .3s;
 }
 
+.poster .favoriteFill {
+    background: rgba(80, 80, 80, 0.6) url("/assets/static/favorite-fill.svg") no-repeat center;
+}
+
 .poster:hover > .favoriteElemButton {
     translate: 0 0;
 }
@@ -231,6 +235,10 @@ progress {
 }
 
 .poster .statusCheckBox {
+    margin-top: 0.5em;
+    margin-left: 0.5em;
+    height: 1.65em;
+    width: 1.65em;
     transition: .3s;
     translate: 0 -4em;
 }

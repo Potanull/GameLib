@@ -83,7 +83,17 @@ func (h *Handler) GetRandomGame(ctx *gin.Context) {
 
 func (h *Handler) GetRandomListGames(ctx *gin.Context) {
 	done := ctx.GetBool("done")
-	randomGames, err := actions.GetRandomListGames(ctx, done, h.Storage)
+
+	image := ctx.GetBool("image")
+
+	var err error
+	var randomGames []*entities.Game
+	if image {
+		randomGames, err = actions.GetRandomListGames(ctx, done, h.Storage)
+	} else {
+		randomGames, err = actions.GetRandomListGamesWithImage(ctx, done, h.Storage)
+	}
+
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, web.ErrorResponse(err))
 		return

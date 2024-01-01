@@ -13,9 +13,12 @@
     <link rel="stylesheet" href="../assets/style/styles.css"/>
     <link rel="stylesheet" href="../assets/style/card.css"/>
     <link rel="stylesheet" href="../assets/style/wheel.css"/>
+    <link rel="stylesheet" href="../assets/style/roulette.css"/>
     <link rel="stylesheet" href="../assets/style/add_game.css"/>
     <link rel="stylesheet" href="../assets/style/update_game.css"/>
     <link rel="icon" type="image/x-icon" href="../assets/static/favicon.ico">
+
+    <link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">
 </head>
 
 <body>
@@ -63,12 +66,14 @@
                 <div class="mb-2 gameHLTB" id="gameHLTB" value=0>
                     <div class="input-group has-validation">
                         <span class="input-group-text">HLTB</span>
-                        <input type="text" class="form-control" id="searchAddGameHLTB" placeholder="Название игры" required=""
+                        <input type="text" class="form-control" id="searchAddGameHLTB" placeholder="Название игры"
+                               required=""
                                autocomplete="off">
                     </div>
                 </div>
                 <div class="mb-2 flex-column flex-md-row align-items-center justify-content-center">
-                    <div id="addListGameHLTB" class="list-group overflow-auto shadow align-items-center" style="max-height: 400px;">
+                    <div id="addListGameHLTB" class="list-group overflow-auto shadow align-items-center"
+                         style="max-height: 400px;">
                     </div>
                 </div>
                 <div class="mb-2">
@@ -100,7 +105,15 @@
     </div>
 </div>
 
-<div class="row mb-2">
+<div class="row mb-3">
+    <div class="col">
+        <div class="d-grid gap-2">
+            <button class="btn btn-primary" type="submit" data-bs-toggle="modal" data-bs-target="#rouletteModal"
+                    id="buttonRoulette">
+                Рулетка
+            </button>
+        </div>
+    </div>
     <div class="col">
         <div class="d-grid gap-2">
             <button class="btn btn-primary" type="submit" id="buttonRandom">Случайная игра</button>
@@ -110,8 +123,37 @@
         <div class="d-grid gap-2">
             <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#wheelOfFortuneModal"
                     id="buttonSpin">
-                Крутить колесо
+                Колесо Фортуны
             </button>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="rouletteModal" tabindex="0" aria-labelledby="rouletteModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg" id="rouletteModalWindow">
+        <div class="modal-content">
+            <div class="modal-header" id="rouletteHeader">
+                <h1 class="modal-title fs-5" id="rouletteModalLabel">Рулетка</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="rouletteBody">
+                <div class='roulette-wrapper'>
+                    <div class='selector'></div>
+                    <div class='roulette'></div>
+                </div>
+            </div>
+            <div class="modal-footer" id="rouletteFooter">
+                <button class="btn btn-primary" type="submit" id="buttonUpdateRoulette">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                              d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"></path>
+                        <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"></path>
+                    </svg>
+                </button>
+                <button class="btn btn-primary" type="submit" id="buttonSpinRoulette">Крутить</button>
+            </div>
         </div>
     </div>
 </div>
@@ -125,7 +167,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header" id="wheelOfFortuneHeader">
-                <h1 class="modal-title fs-5" id="wheelOfFortuneModalLabel">Wheel of Fortune</h1>
+                <h1 class="modal-title fs-5" id="wheelOfFortuneModalLabel">Колесо Фортуны</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" id="wheelOfFortuneBody">
@@ -166,17 +208,19 @@
             <img src="../assets/static/tmpGrid.png" alt={{ $val.Name }}>
             {{ end }}
             <button type="button" id="buttonDeleteElem"
-                    class="btn btn-danger btn-sm text-center deleteElemButton" name="buttonDelete"
+                    class="btn btn-sm text-center deleteElemButton" name="buttonDelete"
                     value={{ $val.ID }}>
             </button>
             <button type="button" id="buttonUpdateElem" data-bs-toggle="modal" data-bs-target="#updateGameModal"
-                    class="btn btn-primary btn-sm text-center updateElemButton" name="buttonUpdate"
+                    class="btn btn-sm text-center updateElemButton" name="buttonUpdate"
                     value={{ $val.ID }}>
             </button>
             {{ if $val.Favorite }}
-            <button class="btn btn-warning btn-sm text-center favoriteElemButton" id="favoriteElemButton" value={{ $val.ID }}></button>
+            <button class="btn btn-sm text-center favoriteElemButton favoriteFill" id="favoriteElemButton" value={{
+                    $val.ID }}></button>
             {{ else }}
-            <button class="btn btn-secondary btn-sm text-center favoriteElemButton" id="favoriteElemButton" value={{ $val.ID }}></button>
+            <button class="btn btn-sm text-center favoriteElemButton" id="favoriteElemButton" value={{ $val.ID
+                    }}></button>
             {{ end }}
         </div>
         <div class="details" id="gameDetails">
@@ -205,6 +249,7 @@
 <script type="application/javascript" src="../assets/script/DeleteGameEvent.js.js"></script>
 <script type="application/javascript" src="../assets/script/UpPage.js"></script>
 <script type="application/javascript" src="../assets/script/WheelOfFortune.js"></script>
+<script type="application/javascript" src="../assets/script/Roulette.js"></script>
 <script type="application/javascript" src="../assets/script/GetRandomGame.js"></script>
 <script type="application/javascript" src="../assets/script/SearchGameHLTB.js"></script>
 

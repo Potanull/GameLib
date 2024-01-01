@@ -86,6 +86,10 @@ func GetRandomListGames(ctx *gin.Context, done bool, storage *db.Storage) ([]*en
 	return db.GetRandomListGames(ctx, done, storage.DataBase)
 }
 
+func GetRandomListGamesWithImage(ctx *gin.Context, done bool, storage *db.Storage) ([]*entities.Game, error) {
+	return db.GetRandomListGamesWithImage(ctx, done, storage.DataBase)
+}
+
 func CheckGame(ctx *gin.Context, id int64, storage *db.Storage) (bool, *entities.Game, error) {
 	return db.CheckGame(ctx, id, storage.DataBase)
 }

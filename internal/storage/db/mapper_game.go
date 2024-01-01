@@ -317,6 +317,35 @@ func GetRandomListGames(_ *gin.Context, done bool, repo *sqlx.DB) ([]*entities.G
 	return gameList, nil
 }
 
+func GetRandomListGamesWithImage(_ *gin.Context, done bool, repo *sqlx.DB) ([]*entities.Game, error) {
+	rows, err := sq.Select(NameCol, DoneCol, ImageUrlCol).
+		From(GamesTabler).
+		Where(sq.Eq{DoneCol: done}).
+		OrderBy("random()").
+		Limit(30).
+		PlaceholderFormat(sq.Dollar).
+		RunWith(repo.DB).Query()
+	defer rows.Close()
+
+	if err != nil {
+		return nil, err
+	}
+
+	var gameList []*entities.Game
+	for rows.Next() {
+		var tmp entities.Game
+		if err := rows.Scan(&tmp.Name, &tmp.Done, &tmp.ImageURL); err != nil {
+			return gameList, err
+		}
+		gameList = append(gameList, &tmp)
+	}
+
+	if err = rows.Err(); err != nil {
+		return gameList, err
+	}
+	return gameList, nil
+}
+
 func CheckGame(_ *gin.Context, id int64, repo *sqlx.DB) (bool, *entities.Game, error) {
 	rows, err := sq.Select(GamesMainCols...).
 		From(GamesTabler).
