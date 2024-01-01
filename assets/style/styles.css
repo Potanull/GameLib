@@ -246,3 +246,15 @@ progress {
 .poster:hover > .statusCheckBox {
     translate: 0 0;
 }
+
+#labelRandomGame {
+    margin: 0;
+}
+
+.leftGroup {
+    float: left;
+}
+
+.rightGroup {
+    float: right;
+}

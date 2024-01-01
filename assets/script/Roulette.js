@@ -12,7 +12,7 @@ $('#buttonSpinRoulette').on('click', function(){
 });
 
 function setRoulette() {
-    let res = [];
+    let randomGameList = []
     $.ajax({
         url: '/api/v1/game/random/list?image=true',
         method: 'GET',
@@ -21,7 +21,7 @@ function setRoulette() {
         success: function (body) {
             let games = body.data;
             for (let i = 0; i < games.length; i++) {
-                res.push({
+                randomGameList.push({
                     name: games[i].name,
                     image_url: games[i].image_url,
                 });
@@ -29,7 +29,7 @@ function setRoulette() {
         }
     });
 
-    initRoulette(res);
+    initRoulette(randomGameList);
 }
 
 function initRoulette(games){
