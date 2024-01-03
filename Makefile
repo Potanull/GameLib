@@ -8,6 +8,10 @@ start-db:
 drop-db:
 	docker-compose rm --stop --force
 
+.PHONY: start-app
+start-app:
+	docker-compose up -d app ${PARAMS}
+
 .PHONY: runserver
 runserver:
 	go run ./cmd/server/main.go

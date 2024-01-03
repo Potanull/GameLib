@@ -38,7 +38,7 @@ function initRoulette(games){
 
     row += "<div class='rowRoulette'>";
     for (let i = 0; i < games.length; i++) {
-        row += `<div class='card red'>
+        row += `<div class='card'>
                     <img src="${games[i].image_url}" alt="${games[i].name}">
                     <p>${games[i].name}</p>
                 <\/div>`

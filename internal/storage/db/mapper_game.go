@@ -71,7 +71,7 @@ func GetGame(_ *gin.Context, id int64, repo *sqlx.DB) (*entities.Game, error) {
 func CreateGame(_ *gin.Context, createGame *entities.CreateGame, repo *sqlx.DB) (*entities.Game, error) {
 	rows, err := sq.Insert(GamesTabler).
 		Columns(GamesBaseCols...).
-		Values(createGame.Name, createGame.Done, createGame.Image,
+		Values(createGame.Name, createGame.Done, false, createGame.Image,
 			createGame.HowLongToBeatID, createGame.HowLongToBeatMainTime, createGame.HowLongToBeatFullTime).
 		Suffix(fmt.Sprintf("RETURNING %s", strings.Join(GamesAllCols, ","))).
 		PlaceholderFormat(sq.Dollar).
