@@ -44,7 +44,7 @@ $(document).on('click', '#buttonUpdateElem', function (event) {
                 <div class="input-group has-validation">
                     <span class="input-group-text">HLTB</span>
                     <input type="text" class="form-control" id="searchUpdateGameHLTB" placeholder="Название игры" required=""
-                           autocomplete="off" onchange="updateGameListHLTB($('#searchUpdateGameHLTB').val())"/>
+                           autocomplete="off" onkeyup="updateGameListHLTB($('#searchUpdateGameHLTB').val())"/>
                 </div>
             </div>
             
@@ -132,15 +132,17 @@ $('#updateGameNameInput').keyup(function (e) {
 });
 
 function updateGameListHLTB(name) {
-    $.ajax({
-        url: '/api/hltb/search/',
-        method: 'GET',
-        data: {
-            name: name
-        },
-        dataType: 'json',
-        success: function (body) {
-            loadSearchGameHLTB('#updateListGameHLTB', body)
-        }
-    });
+    delay(function () {
+        $.ajax({
+            url: '/api/hltb/search/',
+            method: 'GET',
+            data: {
+                name: name
+            },
+            dataType: 'json',
+            success: function (body) {
+                loadSearchGameHLTB('#updateListGameHLTB', body)
+            }
+        });
+    }, 200);
 }

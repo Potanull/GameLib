@@ -49,7 +49,7 @@
             </div>
             <div class="modal-body" id="addGameBody">
                 <div class="mb-2">
-                    <input type="text" class="form-control" name="game" placeholder="Введите название игры..."
+                    <input type="text" onkeyup="SearchAddGameHLTB()" class="form-control" name="game" placeholder="Введите название игры..."
                            aria-label="Введите название игры..." aria-describedby="button-addon2" autocomplete="off"
                            id="inputNewGame">
                 </div>
@@ -66,9 +66,7 @@
                 <div class="mb-2 gameHLTB" id="gameHLTB" value=0>
                     <div class="input-group has-validation">
                         <span class="input-group-text">HLTB</span>
-                        <input type="text" class="form-control" id="searchAddGameHLTB" placeholder="Название игры"
-                               required=""
-                               autocomplete="off">
+                        <input type="text" class="form-control" id="searchAddGameHLTB" placeholder="Игра из HLTB" disabled/>
                     </div>
                 </div>
                 <div class="mb-2 flex-column flex-md-row align-items-center justify-content-center">
@@ -244,6 +242,7 @@
         crossorigin="anonymous"></script>
 <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="application/javascript" src="../assets/script/Delay.js"></script>
 <script type="application/javascript" src="../assets/script/SaveGrid.js"></script>
 <script type="application/javascript" src="../assets/script/SearchGameEvent.js"></script>
 <script type="application/javascript" src="../assets/script/SwitchStatusGame.js"></script>

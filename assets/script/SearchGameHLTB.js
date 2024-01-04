@@ -1,18 +1,19 @@
-$(document).ready(function () {
-    $("#searchAddGameHLTB").change(function () {
+function SearchAddGameHLTB() {
+    delay(function () {
+        let value = $('#inputNewGame').val()
         $.ajax({
             url: '/api/hltb/search/',
             method: 'GET',
             data: {
-                name: $(this).val()
+                name: value
             },
             dataType: 'json',
             success: function (body) {
                 loadSearchGameHLTB('#addListGameHLTB', body)
             }
         });
-    });
-});
+    }, 200);
+}
 
 function switchInputGameHLTB() {
     let selectedDiv;
@@ -21,6 +22,7 @@ function switchInputGameHLTB() {
         if (selectedDiv == this) {
             selectedDiv.classList.remove("active")
             $('.gameHLTB').attr("value", "0")
+            $('#searchAddGameHLTB').attr("placeholder", "Игра из HLTB")
             selectedDiv = null
             return
         }
@@ -31,6 +33,8 @@ function switchInputGameHLTB() {
 
         selectedDiv = this
         $('.gameHLTB').attr("value", this.getAttribute("value"))
+        $('#searchAddGameHLTB').attr("placeholder",
+            this.getAttribute("name") + " | " + this.getAttribute("value"))
     });
 }
 
@@ -43,7 +47,7 @@ function loadSearchGameHLTB(elem, body) {
     let rows = ""
     body['data'].forEach(function (obj) {
         rows += `<div href="#" class="list-group-item list-group-item-action d-flex gap-3 py-3 htlbGameAdd"
-               aria-current="true" value=${obj.game_id}>
+               aria-current="true" value=${obj.game_id} name="${obj.game_name}">
                <img src="${obj.game_image}" alt="twbs" width="80" height="120"
                      class="rounded flex-shrink-0">
                <div>
