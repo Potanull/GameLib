@@ -24,7 +24,7 @@ function getInfoForAdd(hltd_id) {
 function clearInputForm() {
     $('#inputNewGame').val("");
     $('#gridForGame').val("");
-    $('#searchAddGameHLTB').val("");
+    $('#searchAddGameHLTB').attr('placeholder', 'Игра из HLTB');
     $('#addListGameHLTB').html("");
     $(".flexChecked").prop('checked', false);
     $(".findHltbGrid").prop('checked', false);

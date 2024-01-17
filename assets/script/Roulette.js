@@ -57,10 +57,10 @@ function spinRoulette(){
         position = Math.random() * (max - min) + min;
 
     let rows = 12,
-        card = 300 + 3 * 2,
+        card = 280 + 3 * 2,
         landingPosition = (rows * 15 * card) + (position * card);
 
-    let randomize = Math.floor(Math.random() * 300) - (300/2);
+    let randomize = Math.floor(Math.random() * 280) - (280/2);
 
     landingPosition = landingPosition + randomize;
 
