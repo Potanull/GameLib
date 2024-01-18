@@ -82,11 +82,18 @@ func (h *Handler) GetRandomGame(ctx *gin.Context) {
 }
 
 func (h *Handler) GetRandomListGames(ctx *gin.Context) {
-	done := ctx.GetBool("done")
+	done, err := strconv.ParseBool(ctx.Query("done"))
+	if err != nil {
+		done = false
+		log.Println("query param - done not valid")
+	}
 
-	image := ctx.GetBool("image")
+	image, err := strconv.ParseBool(ctx.Query("image"))
+	if err != nil {
+		image = false
+		log.Println("query param - image not valid")
+	}
 
-	var err error
 	var randomGames []*entities.Game
 	if image {
 		randomGames, err = actions.GetRandomListGames(ctx, done, h.Storage)
@@ -105,13 +112,18 @@ func (h *Handler) GetRandomListGames(ctx *gin.Context) {
 }
 
 func (h *Handler) PostGame(ctx *gin.Context) {
+	clearPathImage, err := strconv.ParseBool(ctx.Query("clear-path-image"))
+	if err != nil {
+		clearPathImage = false
+		log.Println("query param - clear-path-image not valid")
+	}
+
 	var game *entities.CreateGame
 	if err := ctx.ShouldBindJSON(&game); err != nil {
 		ctx.JSON(http.StatusBadRequest, web.ErrorResponse(err))
 		return
 	}
 
-	var err error
 	var resultHLTB *howlongtobeat.GameDetailSimple
 
 	if game.HowLongToBeatID != 0 {
@@ -133,6 +145,8 @@ func (h *Handler) PostGame(ctx *gin.Context) {
 		if searchGame != nil {
 			game.Image = actions.ParseHltbImage(searchGame.GameImage)
 		}
+	} else if game.Image != nil {
+		game.Image = actions.ParseLocalImage(*game.Image, clearPathImage)
 	}
 
 	if resultHLTB != nil {

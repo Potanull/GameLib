@@ -27,11 +27,11 @@ services:
     links:
       - db
 
-  app:
-    container_name: app
-    build: ./
-    command: ./app
-    ports:
-      - "8080:8080"
-    depends_on:
-      - db
+#  app:
+#    container_name: app
+#    build: ./
+#    command: ./app
+#    ports:
+#      - "8080:8080"
+#    depends_on:
+#      - db

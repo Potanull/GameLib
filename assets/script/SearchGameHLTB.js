@@ -35,6 +35,7 @@ function switchInputGameHLTB() {
         $('.gameHLTB').attr("value", this.getAttribute("value"))
         $('#searchAddGameHLTB').attr("placeholder",
             this.getAttribute("name") + " | " + this.getAttribute("value"))
+        $('#inputNewGame').val(this.getAttribute("name"))
     });
 }
 

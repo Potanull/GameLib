@@ -19,6 +19,14 @@ const (
 	PathGrids = "assets/static/grids/"
 )
 
+func ParseLocalImage(path string, clearPathImage bool) *string {
+	if !clearPathImage {
+		result := directUp + PathGrids + path
+		return &result
+	}
+	return &path
+}
+
 func GetGame(ctx *gin.Context, id int64, storage *db.Storage) (*entities.Game, error) {
 	return db.GetGame(ctx, id, storage.DataBase)
 }
@@ -40,11 +48,6 @@ func CreateGame(ctx *gin.Context, game *entities.CreateGame, storage *db.Storage
 	if check {
 		ctx.JSON(http.StatusOK, web.ExistResponse())
 		return result, nil
-	}
-
-	if !game.FindGrid && game.Image != nil {
-		newName := directUp + PathGrids + *game.Image
-		game.Image = &newName
 	}
 
 	return db.CreateGame(ctx, game, storage.DataBase)

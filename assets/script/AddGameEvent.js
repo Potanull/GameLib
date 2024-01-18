@@ -27,7 +27,7 @@ function clearInputForm() {
     $('#searchAddGameHLTB').attr('placeholder', 'Игра из HLTB');
     $('#addListGameHLTB').html("");
     $(".flexChecked").prop('checked', false);
-    $(".findHltbGrid").prop('checked', false);
+    $(".findHltbGrid").prop('checked', true);
 }
 
 function createGame() {
@@ -70,3 +70,7 @@ $('#inputNewGame').keyup(function (e) {
         $(this).trigger("enterKey");
     }
 });
+
+$('#addGameModal').on('hidden.bs.modal', function () {
+    clearInputForm()
+})

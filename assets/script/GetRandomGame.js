@@ -1,9 +1,12 @@
+let timerRandomGame = 0;
+
 $(document).on('click', '#buttonRandom', function (event) {
     $.ajax({
         url: '/api/v1/game/random',
         method: 'GET',
         dataType: 'json',
         success: function (body) {
+            clearTimeout(timerRandomGame);
             const element = $("#labelRandomGame");
             const newText = body.data.name;
             if (newText.length == 0) {
@@ -11,7 +14,7 @@ $(document).on('click', '#buttonRandom', function (event) {
             }
             element.text(newText);
             $("#randomGame").show();
-            setTimeout(function () {
+            timerRandomGame = setTimeout(function () {
                 $('#randomGame').hide();
             }, 8000);
         }

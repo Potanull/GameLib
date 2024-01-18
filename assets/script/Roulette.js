@@ -32,27 +32,36 @@ function setRoulette() {
     initRoulette(randomGameList);
 }
 
+let maxCardGameRoulette = 29;
+let timerRoulette = 0;
+
 function initRoulette(games){
+    $('.roulette-wrapper .roulette').html("")
+    if (games == null) {
+        return
+    }
+
     let $wheel = $('.roulette-wrapper .roulette'),
         row = "";
 
     row += "<div class='rowRoulette'>";
-    for (let i = 0; i < games.length; i++) {
+    for (let i = 0; i < Math.max(games.length, maxCardGameRoulette); i++) {
         row += `<div class='card'>
-                    <img src="${games[i].image_url}" alt="${games[i].name}">
-                    <p>${games[i].name}</p>
+                    <img src="${games[i % games.length].image_url}" alt="${games[i % games.length].name}">
+                    <p>${games[i % games.length].name}</p>
                 <\/div>`
     }
     row += "<\/div>";
 
-    for(let x = 0; x < games.length; x++){
+    for(let x = 0; x < Math.max(games.length, maxCardGameRoulette); x++){
         $wheel.append(row);
     }
 }
 
 function spinRoulette(){
+    clearTimeout(timerRoulette);
     let min = 0;
-    let max = 29;
+    let max = maxCardGameRoulette;
     let $wheel = $('.roulette-wrapper .roulette'),
         position = Math.random() * (max - min) + min;
 
@@ -75,7 +84,7 @@ function spinRoulette(){
         'transform':'translate3d(-'+landingPosition+'px, 0px, 0px)'
     });
 
-    setTimeout(function(){
+    timerRoulette = setTimeout(function(){
         $wheel.css({
             'transition-timing-function':'',
             'transition-duration':'',

@@ -92,6 +92,14 @@ function getInfoForUpdate() {
     return JSON.stringify(obj);
 }
 
+function clearUpdateForm() {
+    $('#updateGameNameInput').val("");
+    $('#gameHLTB').attr("value", 0);
+    $('#searchAddGameHLTB').attr('placeholder', 'Игра из HLTB');
+    $(".updateGameStatusInput").prop('checked', false);
+    $(".updateGridHltbInput").prop('checked', false);
+}
+
 function updateGame(id) {
     $.ajax({
         url: '/api/v1/game/' + id,
@@ -130,6 +138,10 @@ $('#updateGameNameInput').keyup(function (e) {
         $(this).trigger("enterKey");
     }
 });
+
+$('#updateGameModal').on('hidden.bs.modal', function () {
+    clearUpdateForm()
+})
 
 function updateGameListHLTB(name) {
     delay(function () {
