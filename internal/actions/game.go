@@ -4,10 +4,8 @@ import (
 	"fmt"
 	"gamelib/internal/entities"
 	"gamelib/internal/storage/db"
-	"gamelib/pkg/web"
 	"github.com/gin-gonic/gin"
 	"log"
-	"net/http"
 	"os"
 	"strings"
 )
@@ -31,26 +29,26 @@ func GetGame(ctx *gin.Context, id int64, storage *db.Storage) (*entities.Game, e
 	return db.GetGame(ctx, id, storage.DataBase)
 }
 
-func CreateGame(ctx *gin.Context, game *entities.CreateGame, storage *db.Storage) (*entities.Game, error) {
+func CreateGame(ctx *gin.Context, game *entities.CreateGame, storage *db.Storage) (bool, *entities.Game, error) {
 	if len(game.Name) == 0 {
-		return nil, fmt.Errorf("name can't be empty")
+		return false, nil, fmt.Errorf("name can't be empty")
 	}
 
 	if len(game.Name) > maxLenGameName {
-		return nil, fmt.Errorf("name of game is too long")
+		return false, nil, fmt.Errorf("name of game is too long")
 	}
 
 	check, result, err := CheckGameByName(ctx, game.Name, storage)
 	if err != nil {
-		return nil, err
+		return false, nil, err
 	}
 
 	if check {
-		ctx.JSON(http.StatusOK, web.ExistResponse())
-		return result, nil
+		return true, result, nil
 	}
 
-	return db.CreateGame(ctx, game, storage.DataBase)
+	result, err = db.CreateGame(ctx, game, storage.DataBase)
+	return false, result, err
 }
 
 func PutGame(ctx *gin.Context, id int64, update *entities.UpdateGame, storage *db.Storage) (*entities.Game, error) {

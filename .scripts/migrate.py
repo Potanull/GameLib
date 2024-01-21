@@ -9,7 +9,8 @@ with open("t_games.csv", encoding='utf-8') as r_file:
             "done": row[1] == 'true',
             "name": row[2],
             "image": row[5],
-            "hltb_id": int(row[6])
+            "hltb_id": int(row[6]),
+            "clear_path_image": True,
         })
 
         response = requests.post("http://localhost:8080/api/v1/game?clear-path-image=true", data=body, headers={"Content-Type": "application/json"})
