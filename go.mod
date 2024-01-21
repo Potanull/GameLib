@@ -1,6 +1,6 @@
 module gamelib
 
-go 1.23
+go 1.21
 
 require (
 	github.com/Masterminds/squirrel v1.5.4 // indirect
