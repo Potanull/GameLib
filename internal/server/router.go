@@ -37,6 +37,9 @@ func (s *Server) configureRoutes() *gin.Engine {
 
 				gameGroup.PUT("/reverse/status/:id", h.ReverseDoneStatus)
 				gameGroup.PUT("/reverse/favorite/:id", h.ReverseFavoriteStatus)
+
+				gameGroup.GET("/count/all", h.GetAllCountGame)
+				gameGroup.GET("/count/done", h.GetDoneCountGame)
 			}
 		}
 	}

@@ -193,7 +193,7 @@ func (h *Handler) PutGame(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusCreated, gin.H{
+	ctx.JSON(http.StatusOK, gin.H{
 		"data": result,
 	})
 }
@@ -211,7 +211,7 @@ func (h *Handler) DeleteGame(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusCreated, gin.H{
+	ctx.JSON(http.StatusOK, gin.H{
 		"data": result,
 	})
 }
@@ -229,7 +229,7 @@ func (h *Handler) ReverseDoneStatus(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusCreated, gin.H{
+	ctx.JSON(http.StatusOK, gin.H{
 		"status": "ok",
 	})
 }
@@ -247,7 +247,31 @@ func (h *Handler) ReverseFavoriteStatus(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusCreated, gin.H{
+	ctx.JSON(http.StatusOK, gin.H{
 		"status": "ok",
+	})
+}
+
+func (h *Handler) GetAllCountGame(ctx *gin.Context) {
+	count, err := actions.GetAllCountGame(ctx, h.Storage)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, web.ErrorResponse(err))
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"count": count,
+	})
+}
+
+func (h *Handler) GetDoneCountGame(ctx *gin.Context) {
+	count, err := actions.GetDoneCountGame(ctx, h.Storage)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, web.ErrorResponse(err))
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"count": count,
 	})
 }

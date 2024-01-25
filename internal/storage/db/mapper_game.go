@@ -427,3 +427,46 @@ func ReverseFavoriteStatus(_ *gin.Context, id int64, repo *sqlx.DB) error {
 	}
 	return nil
 }
+
+func GetAllCountGame(_ *gin.Context, repo *sqlx.DB) (int64, error) {
+	rows, err := sq.Select("COUNT(*)").
+		From(GamesTabler).
+		PlaceholderFormat(sq.Dollar).
+		RunWith(repo.DB).Query()
+	defer rows.Close()
+
+	if err != nil {
+		return 0, err
+	}
+
+	var cnt int64
+	for rows.Next() {
+		if err := rows.Scan(&cnt); err != nil {
+			return 0, err
+		}
+	}
+
+	return cnt, nil
+}
+
+func GetDoneCountGame(_ *gin.Context, repo *sqlx.DB) (int64, error) {
+	rows, err := sq.Select("COUNT(*)").
+		From(GamesTabler).
+		Where(sq.Eq{DoneCol: true}).
+		PlaceholderFormat(sq.Dollar).
+		RunWith(repo.DB).Query()
+	defer rows.Close()
+
+	if err != nil {
+		return 0, err
+	}
+
+	var cnt int64
+	for rows.Next() {
+		if err := rows.Scan(&cnt); err != nil {
+			return 0, err
+		}
+	}
+
+	return cnt, nil
+}

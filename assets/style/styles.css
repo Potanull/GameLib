@@ -258,3 +258,7 @@ progress {
 .rightGroup {
     float: right;
 }
+
+.statusGrid {
+    margin-left: 2em;
+}

@@ -30,6 +30,24 @@
         <img src="https://img.icons8.com/fluency/300/null/xbox-controller--v2.png"/>
         <h1>GameLib</h1>
     </a>
+    <div class="statusGrid">
+        <span class="badge d-flex align-items-center p-1 pe-2 text-second-emphasis bg-second-subtle border border-second-subtle rounded-pill">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right-square-fill ms-1 mt-1 mb-1 me-1" viewBox="0 0 16 16">
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+            </svg>
+            <div class="text-wrap" style="width: 4rem;">GAME</div>
+            <span class="vr mx-2"></span>
+            <div class="text-wrap" style="width: 2rem;" id="allGameCounter">XXX</div>
+        </span>
+        <span class="badge d-flex align-items-center p-1 pe-2 text-dark-emphasis bg-dark-subtle border border-dark-subtle rounded-pill">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right-square-fill ms-1 mt-1 mb-1 me-1" viewBox="0 0 16 16">
+                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+            </svg>
+            <div class="text-wrap" style="width: 4rem;">DONE</div>
+            <span class="vr mx-2"></span>
+            <div class="text-wrap" style="width: 2rem;" id="doneGameCounter">XXX</div>
+        </span>
+    </div>
 </nav>
 
 <div class="d-grid gap-1 mb-2">
@@ -67,7 +85,8 @@
                 <div class="mb-2 gameHLTB" id="gameHLTB" value=0>
                     <div class="input-group has-validation">
                         <span class="input-group-text">HLTB</span>
-                        <input type="text" class="form-control" id="searchAddGameHLTB" placeholder="Игра из HLTB" disabled/>
+                        <input type="text" class="form-control" id="searchAddGameHLTB" placeholder="Игра из HLTB"
+                               disabled/>
                     </div>
                 </div>
                 <div class="mb-2 flex-column flex-md-row align-items-center justify-content-center">
@@ -191,20 +210,8 @@
 <hr>
 
 <div class="form-group">
-    <!--    <div class="row">-->
-    <!--        <div class="col-10">-->
     <input type="text" class="form-control pull-right" id="search" placeholder="Поиск по таблице"
            autocomplete="off">
-    <!--        </div>-->
-    <!--        <div class="col-2">-->
-    <!--            <select class="form-select" aria-label="Default select example">-->
-    <!--                <option selected value="default">Фильтр</option>-->
-    <!--                <option value="1">One</option>-->
-    <!--                <option value="2">Two</option>-->
-    <!--                <option value="3">Three</option>-->
-    <!--            </select>-->
-    <!--        </div>-->
-    <!--    </div>-->
 </div>
 
 <div class="wrapper" id="gameTable">
@@ -257,6 +264,7 @@
 <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script type="application/javascript" src="../assets/script/Delay.js"></script>
+<script type="application/javascript" src="../assets/script/GameCounter.js"></script>
 <script type="application/javascript" src="../assets/script/SaveGrid.js"></script>
 <script type="application/javascript" src="../assets/script/SearchGameEvent.js"></script>
 <script type="application/javascript" src="../assets/script/SwitchStatusGame.js"></script>

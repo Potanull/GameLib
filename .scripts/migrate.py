@@ -13,5 +13,5 @@ with open("t_games.csv", encoding='utf-8') as r_file:
             "clear_path_image": True,
         })
 
-        response = requests.post("http://localhost:8080/api/v1/game?clear-path-image=true", data=body, headers={"Content-Type": "application/json"})
+        response = requests.post("http://localhost:8080/api/v1/game", data=body, headers={"Content-Type": "application/json"})
         print(response.status_code, "|", row[2])

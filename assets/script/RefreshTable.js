@@ -1,4 +1,5 @@
 function refreshTable() {
+    updateGameStatus()
     $.getJSON('/api/v1/game/all', function (body) {
         let rows = "";
 
@@ -62,3 +63,10 @@ function refreshTable() {
         });
     });
 }
+
+function updateGameStatus() {
+    $('#doneGameCounter').html(getDoneGameCount())
+    $('#allGameCounter').html(getAllGameCount())
+}
+
+updateGameStatus()

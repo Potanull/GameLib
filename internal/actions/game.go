@@ -106,3 +106,11 @@ func ReverseDoneStatus(ctx *gin.Context, id int64, storage *db.Storage) error {
 func ReverseFavoriteStatus(ctx *gin.Context, id int64, storage *db.Storage) error {
 	return db.ReverseFavoriteStatus(ctx, id, storage.DataBase)
 }
+
+func GetAllCountGame(ctx *gin.Context, storage *db.Storage) (int64, error) {
+	return db.GetAllCountGame(ctx, storage.DataBase)
+}
+
+func GetDoneCountGame(ctx *gin.Context, storage *db.Storage) (int64, error) {
+	return db.GetDoneCountGame(ctx, storage.DataBase)
+}
