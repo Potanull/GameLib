@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS gamelib.t_games
     update_dt timestamptz NOT NULL DEFAULT now()
 );
 
-CREATE FUNCTION gamelib.game_update_dt() RETURNS TRIGGER
+CREATE FUNCTION IF NOT EXISTS gamelib.game_update_dt() RETURNS TRIGGER
     LANGUAGE plpgsql
 AS
 $$
@@ -22,7 +22,7 @@ RETURN NEW;
 END;
 $$;
 
-CREATE TRIGGER game_update
+CREATE TRIGGER IF NOT EXISTS game_update
     BEFORE UPDATE
     ON gamelib.t_games
     FOR EACH ROW

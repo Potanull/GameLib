@@ -14,7 +14,7 @@ start-app:
 
 .PHONY: runserver
 runserver:
-	go run ./cmd/server/main.go
+	go run ./cmd/server/main.go -env="dev"
 
 .PHONY: build
 build:

@@ -19,9 +19,23 @@ func (h *Handler) MainPage(ctx *gin.Context) {
 		return
 	}
 
+	allCount, err := actions.GetAllCountGame(ctx, h.Storage)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, web.ErrorResponse(err))
+		return
+	}
+
+	doneCount, err := actions.GetDoneCountGame(ctx, h.Storage)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, web.ErrorResponse(err))
+		return
+	}
+
 	ctx.HTML(http.StatusOK, "index.html", gin.H{
-		"gameList":   base,
-		"randomGame": "",
+		"gameList":      base,
+		"randomGame":    "",
+		"allCountGame":  allCount,
+		"doneCountGame": doneCount,
 	})
 }
 

@@ -68,5 +68,3 @@ function updateGameStatus() {
     $('#doneGameCounter').html(getDoneGameCount())
     $('#allGameCounter').html(getAllGameCount())
 }
-
-updateGameStatus()

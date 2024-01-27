@@ -37,7 +37,7 @@
             </svg>
             <div class="text-wrap" style="width: 4rem;">GAME</div>
             <span class="vr mx-2"></span>
-            <div class="text-wrap" style="width: 2rem;" id="allGameCounter">XXX</div>
+            <div class="text-wrap" style="width: 2rem;" id="allGameCounter">{{ .allCountGame }}</div>
         </span>
         <span class="badge d-flex align-items-center p-1 pe-2 text-dark-emphasis bg-dark-subtle border border-dark-subtle rounded-pill">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right-square-fill ms-1 mt-1 mb-1 me-1" viewBox="0 0 16 16">
@@ -45,7 +45,7 @@
             </svg>
             <div class="text-wrap" style="width: 4rem;">DONE</div>
             <span class="vr mx-2"></span>
-            <div class="text-wrap" style="width: 2rem;" id="doneGameCounter">XXX</div>
+            <div class="text-wrap" style="width: 2rem;" id="doneGameCounter">{{ .doneCountGame}}</div>
         </span>
     </div>
 </nav>

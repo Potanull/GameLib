@@ -20,18 +20,19 @@ services:
     image: migrate/migrate
     volumes:
       - ./postgre/migrations:/migrations
-    command: ["-path", "/migrations", "-database", "postgres://gamelib:P@ssw0rd@db:5432/gamelib-db?sslmode=disable", "up"]
+    command: [ "-path", "/migrations", "-database", "postgres://gamelib:P@ssw0rd@db:5432/gamelib-db?sslmode=disable", "up"]
     restart: "on-failure"
     depends_on:
       - db
     links:
       - db
 
-#  app:
-#    container_name: app
-#    build: ./
-#    command: ./app
-#    ports:
-#      - "8080:8080"
-#    depends_on:
-#      - db
+  app:
+    container_name: app
+    build: ./
+    command: ["./app", "-env=test"]
+    environment: []
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db

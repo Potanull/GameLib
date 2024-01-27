@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 
@@ -11,8 +12,10 @@ import (
 )
 
 func main() {
-	env := "test"
-	if err := config.ParseConfig(env); err != nil {
+	env := flag.String("env", "dev", "env for start")
+	flag.Parse()
+
+	if err := config.ParseConfig(*env); err != nil {
 		log.Fatalf("[Main] Error initialize configs: %s", err.Error())
 	}
 
