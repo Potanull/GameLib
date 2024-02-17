@@ -2,34 +2,31 @@ package actions
 
 import (
 	"fmt"
+
 	"gamelib/internal/entities"
-	"gamelib/internal/storage/db"
+	"gamelib/internal/storage/postgres"
 	"github.com/gin-gonic/gin"
-	"log"
-	"os"
-	"strings"
 )
 
 const (
 	maxLenGameName = 150
 
-	directUp  = "../"
-	PathGrids = "assets/static/grids/"
+	PathGrids = "http://localhost:8080/minio/image/"
 )
 
 func ParseLocalImage(path string, clearPathImage bool) *string {
 	if !clearPathImage {
-		result := directUp + PathGrids + path
+		result := PathGrids + path
 		return &result
 	}
 	return &path
 }
 
-func GetGame(ctx *gin.Context, id int64, storage *db.Storage) (*entities.Game, error) {
-	return db.GetGame(ctx, id, storage.DataBase)
+func GetGame(ctx *gin.Context, id int64, storage *postgres.Storage) (*entities.Game, error) {
+	return postgres.GetGame(ctx, id, storage.DataBase)
 }
 
-func CreateGame(ctx *gin.Context, game *entities.CreateGame, storage *db.Storage) (bool, *entities.Game, error) {
+func CreateGame(ctx *gin.Context, game *entities.CreateGame, storage *postgres.Storage) (bool, *entities.Game, error) {
 	if len(game.Name) == 0 {
 		return false, nil, fmt.Errorf("name can't be empty")
 	}
@@ -47,70 +44,71 @@ func CreateGame(ctx *gin.Context, game *entities.CreateGame, storage *db.Storage
 		return true, result, nil
 	}
 
-	result, err = db.CreateGame(ctx, game, storage.DataBase)
+	result, err = postgres.CreateGame(ctx, game, storage.DataBase)
 	return false, result, err
 }
 
-func PutGame(ctx *gin.Context, id int64, update *entities.UpdateGame, storage *db.Storage) (*entities.Game, error) {
-	return db.PutGame(ctx, id, update, storage.DataBase)
+func PutGame(ctx *gin.Context, id int64, update *entities.UpdateGame, storage *postgres.Storage) (*entities.Game, error) {
+	return postgres.PutGame(ctx, id, update, storage.DataBase)
 }
 
-func DeleteGame(ctx *gin.Context, id int64, storage *db.Storage) (*entities.Game, error) {
+func DeleteGame(ctx *gin.Context, id int64, storage *postgres.Storage) (*entities.Game, error) {
 	game, err := GetGame(ctx, id, storage)
 	if err != nil {
 		return nil, err
 	}
 
-	if game.ImageURL != nil {
-		err = os.Remove(strings.TrimPrefix(*game.ImageURL, directUp))
-		if err != nil {
-			log.Println(err)
-		}
-	}
+	_ = game
+	//if game.ImageURL != nil {
+	//	err = os.Remove(strings.TrimPrefix(*game.ImageURL, directUp))
+	//	if err != nil {
+	//		log.Println(err)
+	//	}
+	//}
 
-	return db.DeleteGame(ctx, id, storage.DataBase)
+	return postgres.DeleteGame(ctx, id, storage.DataBase)
 }
 
-func GetGameByName(ctx *gin.Context, name string, storage *db.Storage) (*entities.Game, error) {
-	return db.GetGameByName(ctx, name, storage.DataBase)
+func GetGameByName(ctx *gin.Context, name string, storage *postgres.Storage) (*entities.Game, error) {
+	return postgres.GetGameByName(ctx, name, storage.DataBase)
 }
 
-func GetAllGames(ctx *gin.Context, storage *db.Storage) ([]*entities.Game, error) {
-	return db.GetAllGames(ctx, storage.DataBase)
+func GetAllGames(ctx *gin.Context, storage *postgres.Storage) ([]*entities.Game, error) {
+	return postgres.GetAllGames(ctx, storage.DataBase)
 }
 
-func GetRandomGame(ctx *gin.Context, done bool, storage *db.Storage) (*entities.Game, error) {
-	return db.GetRandomGame(ctx, done, storage.DataBase)
+func GetRandomGame(ctx *gin.Context, done bool, storage *postgres.Storage) (*entities.Game, error) {
+	return postgres.GetRandomGame(ctx, done, storage.DataBase)
 }
 
-func GetRandomListGames(ctx *gin.Context, done bool, storage *db.Storage) ([]*entities.Game, error) {
-	return db.GetRandomListGames(ctx, done, storage.DataBase)
+func GetRandomListGames(ctx *gin.Context, done bool, storage *postgres.Storage) ([]*entities.Game, error) {
+	return postgres.GetRandomListGames(ctx, done, storage.DataBase)
 }
 
-func GetRandomListGamesWithImage(ctx *gin.Context, done bool, storage *db.Storage) ([]*entities.Game, error) {
-	return db.GetRandomListGamesWithImage(ctx, done, storage.DataBase)
+func GetRandomListGamesWithImage(ctx *gin.Context, done bool, storage *postgres.Storage) ([]*entities.Game, error) {
+	return postgres.GetRandomListGamesWithImage(ctx, done, storage.DataBase)
 }
 
-func CheckGame(ctx *gin.Context, id int64, storage *db.Storage) (bool, *entities.Game, error) {
-	return db.CheckGame(ctx, id, storage.DataBase)
+func CheckGame(ctx *gin.Context, id int64, storage *postgres.Storage) (bool, *entities.Game, error) {
+	return postgres.CheckGame(ctx, id, storage.DataBase)
 }
 
-func CheckGameByName(ctx *gin.Context, name string, storage *db.Storage) (bool, *entities.Game, error) {
-	return db.CheckGameByName(ctx, name, storage.DataBase)
+func CheckGameByName(ctx *gin.Context, name string, storage *postgres.Storage) (bool, *entities.Game, error) {
+	return postgres.CheckGameByName(ctx, name, storage.DataBase)
 }
 
-func ReverseDoneStatus(ctx *gin.Context, id int64, storage *db.Storage) error {
-	return db.ReverseDoneStatus(ctx, id, storage.DataBase)
+func ReverseDoneStatus(ctx *gin.Context, id int64, storage *postgres.Storage) error {
+	return postgres.ReverseDoneStatus(ctx, id, storage.DataBase)
 }
 
-func ReverseFavoriteStatus(ctx *gin.Context, id int64, storage *db.Storage) error {
-	return db.ReverseFavoriteStatus(ctx, id, storage.DataBase)
+func ReverseFavoriteStatus(ctx *gin.Context, id int64, storage *postgres.Storage) error {
+	return postgres.ReverseFavoriteStatus(ctx, id, storage.DataBase)
 }
 
-func GetAllCountGame(ctx *gin.Context, storage *db.Storage) (int64, error) {
-	return db.GetAllCountGame(ctx, storage.DataBase)
+func GetAllCountGame(ctx *gin.Context, storage *postgres.Storage) (int64, error) {
+	return postgres.GetAllCountGame(ctx, storage.DataBase)
 }
 
-func GetDoneCountGame(ctx *gin.Context, storage *db.Storage) (int64, error) {
-	return db.GetDoneCountGame(ctx, storage.DataBase)
+func GetDoneCountGame(ctx *gin.Context, storage *postgres.Storage) (int64, error) {
+	return postgres.GetDoneCountGame(ctx, storage.DataBase)
 }

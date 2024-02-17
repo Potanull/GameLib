@@ -1,4 +1,4 @@
-package db
+package postgres
 
 import (
 	"fmt"
@@ -19,7 +19,7 @@ func NewStorage(cfg StorageConfig) (Storage, error) {
 			cfg.Host, cfg.Port, cfg.Name, cfg.DBName, cfg.Password, cfg.SSLMode))
 
 	if err != nil {
-		log.Fatalf("error connect to DB\n")
+		log.Fatalln("error connect to DB")
 		return Storage{}, err
 	}
 

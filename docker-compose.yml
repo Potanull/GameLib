@@ -1,7 +1,7 @@
 version: '3.9'
 services:
-  db:
-    container_name: database
+  postgres:
+    container_name: postgres
     image: "postgres:14.5-alpine"
     ports:
       - "5432:5432"
@@ -20,19 +20,39 @@ services:
     image: migrate/migrate
     volumes:
       - ./postgre/migrations:/migrations
-    command: [ "-path", "/migrations", "-database", "postgres://gamelib:P@ssw0rd@db:5432/gamelib-db?sslmode=disable", "up"]
+    command: [ "-path", "/migrations", "-database", "postgres://gamelib:P@ssw0rd@postgres:5432/gamelib-db?sslmode=disable", "up"]
     restart: "on-failure"
     depends_on:
-      - db
+      - postgres
     links:
-      - db
+      - postgres
 
-  app:
-    container_name: app
+  minio:
+    container_name: minio
+    image: minio/minio:latest
+    command: server /data --console-address ":9001"
+    restart: always
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      -  ~/minio/data:/data
+    environment:
+      - MINIO_ROOT_USER=gamelib
+      - MINIO_ROOT_PASSWORD=P@ssw0rd
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:9000/minio/health/live" ]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+
+  gamelib:
+    container_name: gamelib
     build: ./
     command: ["./app", "-env=test"]
     environment: []
     ports:
       - "8080:8080"
     depends_on:
-      - db
+      - postgres
+      - minio

@@ -2,7 +2,7 @@ function SearchAddGameHLTB() {
     delay(function () {
         let value = $('#inputNewGame').val()
         $.ajax({
-            url: '/api/hltb/search/',
+            url: '/hltb/search/',
             method: 'GET',
             data: {
                 name: value

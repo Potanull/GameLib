@@ -11,14 +11,24 @@ func (s *Server) configureRoutes() *gin.Engine {
 	router.Static("/assets", "./assets")
 	router.LoadHTMLGlob("templates/*")
 
-	h := handlers.NewHandler(s.Storage, s.HLTB)
+	h := handlers.NewHandler(s.Storage, s.Minio, s.HLTB)
 
 	router.GET("/", h.MainPage)
 
+	hltbGroup := router.Group("/hltb/")
+	{
+		hltbGroup.GET("/search/", h.SearchGameByName)
+	}
+
+	minioGroup := router.Group("minio")
+	{
+		minioGroup.POST("/image", h.PostMinioImage)
+		minioGroup.GET("/image/:name", h.GetMinioImage)
+		minioGroup.DELETE("/image/:name", h.DeleteMinioImage)
+	}
+
 	apiGroup := router.Group("/api/")
 	{
-		apiGroup.POST("/image/:name", h.PostImage)
-		apiGroup.GET("/hltb/search/", h.SearchGameByName)
 		v1Group := apiGroup.Group("/v1/")
 		{
 			gameGroup := v1Group.Group("/game/")

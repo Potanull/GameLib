@@ -1,14 +1,16 @@
 package config
 
 import (
-	"gamelib/internal/storage/db"
+	"gamelib/internal/storage/minio"
+	"gamelib/internal/storage/postgres"
 	"gamelib/pkg/web"
 	"github.com/spf13/viper"
 )
 
 type Config struct {
 	Server  web.ServerConfig
-	Storage db.StorageConfig
+	Storage postgres.StorageConfig
+	Minio   minio.MinioConfig
 }
 
 func ParseConfig(env string) error {

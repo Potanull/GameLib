@@ -1,34 +1,59 @@
 package handlers
 
 import (
-	"gamelib/internal/actions"
-	"github.com/gin-gonic/gin"
 	"net/http"
+
+	"gamelib/internal/actions"
+	"gamelib/pkg/web"
+	"github.com/gin-gonic/gin"
 )
 
-func (h *Handler) PostImage(ctx *gin.Context) {
+func (h *Handler) GetMinioImage(ctx *gin.Context) {
+	imgName := ctx.Param("name")
+	img, err := actions.GetImage(ctx, imgName, h.Minio.Config.ImageBucketName, h.Minio.DataBase)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, web.ErrorResponse(err))
+		return
+	}
+
+	data, _ := img.Stat()
+	if data.Size == 0 {
+		ctx.JSON(http.StatusNoContent, gin.H{"error": "File not found"})
+		return
+	}
+	extraHeaders := map[string]string{
+		"Content-Disposition": "inline; filename=" + imgName,
+	}
+	ctx.DataFromReader(http.StatusOK, data.Size, "image/png", img, extraHeaders)
+}
+
+func (h *Handler) PostMinioImage(ctx *gin.Context) {
 	img, err := ctx.FormFile("image")
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"status": "image error",
+		ctx.JSON(http.StatusBadRequest, web.ErrorResponse(err))
+		return
+	}
+
+	info, err := actions.PostImage(ctx, img, h.Minio.Config.ImageBucketName, h.Minio.DataBase)
+	if err != nil {
+		ctx.JSON(http.StatusOK, gin.H{
+			"filepath": info.Key,
 		})
 		return
 	}
 
-	imgName := ctx.Param("name")
-	if len(imgName) == 0 {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"status": "image name error",
-		})
-		return
-	}
+	ctx.JSON(http.StatusCreated, gin.H{
+		"filepath": info.Key,
+	})
+}
 
-	if err := ctx.SaveUploadedFile(img, actions.PathGrids+imgName); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"status": "error",
-		})
-		return
+func (h *Handler) DeleteMinioImage(ctx *gin.Context) {
+	name := ctx.Param("name")
+	err := actions.DeleteImage(ctx, name, h.Minio.Config.ImageBucketName, h.Minio.DataBase)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, web.ErrorResponse(err))
 	}
-
-	ctx.String(http.StatusOK, "Files uploaded")
+	ctx.JSON(http.StatusOK, gin.H{
+		"status": "image deleted",
+	})
 }

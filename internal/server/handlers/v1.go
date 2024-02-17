@@ -1,15 +1,17 @@
 package handlers
 
 import (
+	"log"
+	"math"
+	"net/http"
+	"strconv"
+	"strings"
+
 	"gamelib/internal/actions"
 	"gamelib/internal/entities"
 	"gamelib/pkg/web"
 	"github.com/forbiddencoding/howlongtobeat"
 	"github.com/gin-gonic/gin"
-	"log"
-	"math"
-	"net/http"
-	"strconv"
 )
 
 func (h *Handler) MainPage(ctx *gin.Context) {
@@ -223,6 +225,19 @@ func (h *Handler) DeleteGame(ctx *gin.Context) {
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, web.ErrorResponse(err))
 		return
+	}
+
+	if result.ImageURL != nil {
+		url := strings.Split(*result.ImageURL, "/")
+		imgGroup := url[len(url)-2]
+		imgName := url[len(url)-1]
+		if hltbGroup != imgGroup {
+			err = actions.DeleteImage(ctx, imgName, imgGroup, h.Minio.DataBase)
+			if err != nil {
+				ctx.JSON(http.StatusBadRequest, web.ErrorResponse(err))
+				return
+			}
+		}
 	}
 
 	ctx.JSON(http.StatusOK, gin.H{

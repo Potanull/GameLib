@@ -4,7 +4,6 @@ function displaySelectedImage(event, elementId) {
 
     if (fileInput.files && fileInput.files[0]) {
         const reader = new FileReader();
-
         reader.onload = function (e) {
             selectedImage.src = e.target.result;
         };
@@ -78,7 +77,7 @@ function getInfoForUpdate() {
             hltb_id: Number($('#gameHLTB').attr("value")),
             done: $("#updateGameStatusInput").is(":checked"),
             find_grid: $("#updateGridHltbInput").is(":checked"),
-            image_url: "../assets/static/grids/" + $('#updateGridButton').get(0).files[0].name
+            image_url: "http://localhost:8080/minio/image/" + $('#updateGridButton').get(0).files[0].name
         };
     } else {
         obj = {
@@ -107,10 +106,7 @@ function updateGame(id) {
         dataType: 'json',
         data: getInfoForUpdate(),
         statusCode: {
-            200: function () {
-                alert("Игра уже есть в списке");
-            },
-            201: async function () {
+            200: async function () {
                 await saveImg($('#updateGridButton').get(0).files[0]);
                 $('#updateGameModal').modal('toggle');
                 refreshTable();
@@ -146,7 +142,7 @@ $('#updateGameModal').on('hidden.bs.modal', function () {
 function updateGameListHLTB(name) {
     delay(function () {
         $.ajax({
-            url: '/api/hltb/search/',
+            url: '/hltb/search/',
             method: 'GET',
             data: {
                 name: name

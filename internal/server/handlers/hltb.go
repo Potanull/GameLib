@@ -2,12 +2,15 @@ package handlers
 
 import (
 	"fmt"
+	"net/http"
+
 	"gamelib/internal/actions"
 	"gamelib/internal/entities"
 	"gamelib/pkg/web"
 	"github.com/gin-gonic/gin"
-	"net/http"
 )
+
+const hltbGroup = "games"
 
 func (h *Handler) SearchGameByName(ctx *gin.Context) {
 	name, exists := ctx.GetQuery("name")

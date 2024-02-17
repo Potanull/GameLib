@@ -2,11 +2,11 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"log"
 
 	"gamelib/internal/server"
-	"gamelib/internal/storage/db"
+	"gamelib/internal/storage/minio"
+	"gamelib/internal/storage/postgres"
 	"gamelib/pkg/config"
 	"gamelib/pkg/web"
 )
@@ -21,10 +21,11 @@ func main() {
 
 	cfg := &config.Config{
 		Server:  web.InitServerConfig(),
-		Storage: db.InitStorageConfig(),
+		Storage: postgres.InitStorageConfig(),
+		Minio:   minio.InitMinioConfig(),
 	}
 
-	srv, err := server.NewServer(cfg)
+	app, err := server.NewServer(cfg)
 	if err != nil {
 		log.Fatalf("[Main] Can't connect to database: %s", err.Error())
 	} else {
@@ -32,9 +33,7 @@ func main() {
 	}
 
 	path := cfg.Server.Port
-	if err := srv.Start(path); err != nil {
+	if err := app.Start(path); err != nil {
 		log.Fatalf("[Main] Server start error: %s", err.Error())
 	}
-
-	fmt.Print("Hello!")
 }

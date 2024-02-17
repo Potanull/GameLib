@@ -2,33 +2,42 @@ package server
 
 import (
 	"context"
-	"github.com/forbiddencoding/howlongtobeat"
 	"net/http"
 
-	"gamelib/internal/storage/db"
+	"gamelib/internal/storage/minio"
+	"github.com/forbiddencoding/howlongtobeat"
+
+	"gamelib/internal/storage/postgres"
 	"gamelib/pkg/config"
 )
 
 type Server struct {
 	httpServer *http.Server
-	Storage    *db.Storage
+	Storage    *postgres.Storage
+	Minio      *minio.Client
 	HLTB       *howlongtobeat.Client
 }
 
 func NewServer(cfg *config.Config) (*Server, error) {
-	storage, err := db.NewStorage(cfg.Storage)
+	postgresClient, err := postgres.NewStorage(cfg.Storage)
 	if err != nil {
 		return nil, err
 	}
 
-	hltb, err := howlongtobeat.New()
+	minioClient, err := minio.NewStorage(cfg.Minio)
+	if err != nil {
+		return nil, err
+	}
+
+	hltbClient, err := howlongtobeat.New()
 	if err != nil {
 		return nil, err
 	}
 
 	return &Server{
-		Storage: &storage,
-		HLTB:    hltb,
+		Storage: &postgresClient,
+		Minio:   &minioClient,
+		HLTB:    hltbClient,
 	}, nil
 }
 
