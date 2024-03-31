@@ -137,20 +137,22 @@ func (h *Handler) PostGame(ctx *gin.Context) {
 		}
 	}
 
-	if game.FindGrid && resultHLTB != nil {
-		game.Image = actions.ParseHltbImage(resultHLTB.GameImage)
-	} else if game.FindGrid {
-		searchGame, err := actions.FindHltbGame(ctx, game, h.HLTB)
-		if err != nil {
-			ctx.JSON(http.StatusBadRequest, web.ErrorResponse(err))
-			return
-		}
-
-		if searchGame != nil {
-			game.Image = actions.ParseHltbImage(searchGame.GameImage)
-		}
-	} else if game.Image != nil {
+	if game.Image != nil {
 		game.Image = actions.ParseLocalImage(*game.Image, clearPathImage)
+	} else {
+		if game.FindGrid && resultHLTB != nil {
+			game.Image = actions.ParseHltbImage(resultHLTB.GameImage)
+		} else if game.FindGrid {
+			searchGame, err := actions.FindHltbGame(ctx, game, h.HLTB)
+			if err != nil {
+				ctx.JSON(http.StatusBadRequest, web.ErrorResponse(err))
+				return
+			}
+
+			if searchGame != nil {
+				game.Image = actions.ParseHltbImage(searchGame.GameImage)
+			}
+		}
 	}
 
 	if resultHLTB != nil {
