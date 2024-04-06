@@ -30,13 +30,13 @@ func (h *Handler) SearchGameByName(ctx *gin.Context) {
 		Name: name,
 	}
 
-	games, err := actions.FindHltbGames(ctx, searchGame, h.HLTB)
+	games, err := actions.FindHltbGames(ctx, searchGame.Name, h.HLTB)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, web.ErrorResponse(err))
 		return
 	}
 
-	for ind, _ := range games {
+	for ind := range games {
 		games[ind].GameImage = *actions.ParseHltbImage(games[ind].GameImage)
 	}
 

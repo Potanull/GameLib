@@ -1,7 +1,6 @@
 package actions
 
 import (
-	"gamelib/internal/entities"
 	"github.com/forbiddencoding/howlongtobeat"
 	"github.com/gin-gonic/gin"
 )
@@ -17,8 +16,8 @@ func GetHltbGame(ctx *gin.Context, id int, hltb *howlongtobeat.Client) (*howlong
 	return hltb.DetailSimple(ctx, id)
 }
 
-func FindHltbGame(ctx *gin.Context, game *entities.CreateGame, hltb *howlongtobeat.Client) (*howlongtobeat.SearchGameSimple, error) {
-	searchResults, err := hltb.SearchSimple(ctx, game.Name, howlongtobeat.SearchModifierHideDLC)
+func FindHltbGame(ctx *gin.Context, gameName string, hltb *howlongtobeat.Client) (*howlongtobeat.SearchGameSimple, error) {
+	searchResults, err := hltb.SearchSimple(ctx, gameName, howlongtobeat.SearchModifierHideDLC)
 	if err != nil {
 		return nil, err
 	}
@@ -29,8 +28,8 @@ func FindHltbGame(ctx *gin.Context, game *entities.CreateGame, hltb *howlongtobe
 	return nil, err
 }
 
-func FindHltbGames(ctx *gin.Context, game *entities.CreateGame, hltb *howlongtobeat.Client) ([]*howlongtobeat.SearchGameSimple, error) {
-	searchResults, err := hltb.SearchSimple(ctx, game.Name, howlongtobeat.SearchModifierHideDLC)
+func FindHltbGames(ctx *gin.Context, gameName string, hltb *howlongtobeat.Client) ([]*howlongtobeat.SearchGameSimple, error) {
+	searchResults, err := hltb.SearchSimple(ctx, gameName, howlongtobeat.SearchModifierHideDLC)
 	if err != nil {
 		return nil, err
 	}

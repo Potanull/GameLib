@@ -143,7 +143,7 @@ func (h *Handler) PostGame(ctx *gin.Context) {
 		if game.FindGrid && resultHLTB != nil {
 			game.Image = actions.ParseHltbImage(resultHLTB.GameImage)
 		} else if game.FindGrid {
-			searchGame, err := actions.FindHltbGame(ctx, game, h.HLTB)
+			searchGame, err := actions.FindHltbGame(ctx, game.Name, h.HLTB)
 			if err != nil {
 				ctx.JSON(http.StatusBadRequest, web.ErrorResponse(err))
 				return
@@ -191,18 +191,38 @@ func (h *Handler) PutGame(ctx *gin.Context) {
 		return
 	}
 
+	clearPathImage := game.ClearPathImage
+	var resultHLTB *howlongtobeat.GameDetailSimple
+
 	if game.HowLongToBeatID != 0 {
-		gameHLTB, err := actions.GetHltbGame(ctx, game.HowLongToBeatID, h.HLTB)
+		resultHLTB, err = actions.GetHltbGame(ctx, game.HowLongToBeatID, h.HLTB)
 		if err != nil {
-			return
+			log.Println(err)
 		}
+	}
 
-		game.HowLongToBeatMainTime = int(math.Round(gameHLTB.CompMain))
-		game.HowLongToBeatFullTime = int(math.Round(gameHLTB.CompPlus))
+	if game.FindGrid {
+		if resultHLTB != nil {
+			game.Image = actions.ParseHltbImage(resultHLTB.GameImage)
+		} else {
+			searchGame, err := actions.FindHltbGame(ctx, game.Name, h.HLTB)
+			if err != nil {
+				ctx.JSON(http.StatusBadRequest, web.ErrorResponse(err))
+				return
+			}
 
-		if *game.FindGrid {
-			game.ImageURL = actions.ParseHltbImage(gameHLTB.GameImage)
+			if searchGame != nil {
+				game.Image = actions.ParseHltbImage(searchGame.GameImage)
+			}
 		}
+	} else if game.Image != nil {
+		game.Image = actions.ParseLocalImage(*game.Image, clearPathImage)
+	}
+
+	if resultHLTB != nil {
+		game.HowLongToBeatID = resultHLTB.GameID
+		game.HowLongToBeatMainTime = int(math.Round(resultHLTB.CompMain))
+		game.HowLongToBeatFullTime = int(math.Round(resultHLTB.CompPlus))
 	}
 
 	result, err := actions.PutGame(ctx, id, game, h.Storage)

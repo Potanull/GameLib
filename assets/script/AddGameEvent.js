@@ -6,15 +6,15 @@ function getInfoForAdd(hltd_id) {
             hltb_id: hltd_id,
             name: $("#inputNewGame").val(),
             done: $(".flexChecked").is(":checked"),
+            find_grid: $(".findHltbGrid").is(":checked"),
             image: $('#gridForGame').get(0).files[0].name,
-            find_grid: $(".findHltbGrid").is(":checked")
         };
     } else {
         obj = {
             hltb_id: hltd_id,
             name: $("#inputNewGame").val(),
             done: $(".flexChecked").is(":checked"),
-            find_grid: $(".findHltbGrid").is(":checked")
+            find_grid: $(".findHltbGrid").is(":checked"),
         };
     }
 

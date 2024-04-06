@@ -77,14 +77,14 @@ function getInfoForUpdate() {
             hltb_id: Number($('#gameHLTB').attr("value")),
             done: $("#updateGameStatusInput").is(":checked"),
             find_grid: $("#updateGridHltbInput").is(":checked"),
-            image_url: "http://localhost:8080/minio/image/" + $('#updateGridButton').get(0).files[0].name
+            image: $('#updateGridButton').get(0).files[0].name,
         };
     } else {
         obj = {
             name: $("#updateGameNameInput").val(),
             hltb_id: Number($('#gameHLTB').attr("value")),
             done: $("#updateGameStatusInput").is(":checked"),
-            find_grid: $("#updateGridHltbInput").is(":checked")
+            find_grid: $("#updateGridHltbInput").is(":checked"),
         };
     }
 

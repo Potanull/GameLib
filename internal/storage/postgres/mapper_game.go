@@ -115,8 +115,8 @@ func PutGame(_ *gin.Context, id int64, updateGame *entities.UpdateGame, repo *sq
 		query = query.Set(NameCol, updateGame.Name)
 	}
 
-	if updateGame.ImageURL != nil {
-		query = query.Set(ImageUrlCol, updateGame.ImageURL)
+	if updateGame.Image != nil {
+		query = query.Set(ImageUrlCol, updateGame.Image)
 	}
 
 	if updateGame.HowLongToBeatID != 0 {
