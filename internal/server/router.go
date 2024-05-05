@@ -12,7 +12,6 @@ func (s *Server) configureRoutes() *gin.Engine {
 	router.LoadHTMLGlob("templates/*")
 
 	h := handlers.NewHandler(s.Storage, s.Minio, s.HLTB)
-
 	router.GET("/", h.MainPage)
 
 	hltbGroup := router.Group("/hltb/")

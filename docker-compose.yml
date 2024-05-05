@@ -3,6 +3,7 @@ services:
   postgres:
     container_name: postgres
     image: "postgres:14.5-alpine"
+    restart: always
     ports:
       - "5432:5432"
     environment:
@@ -50,6 +51,7 @@ services:
     container_name: gamelib
     build: ./
     command: ["./app", "-env=test"]
+    restart: always
     environment: []
     ports:
       - "8080:8080"

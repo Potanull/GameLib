@@ -31,7 +31,7 @@ function refreshTable() {
                     </button>
                     <button type="button" id="buttonUpdateElem" data-bs-toggle="modal" data-bs-target="#updateGameModal"
                             class="btn btn-sm text-center updateElemButton" name="buttonUpdate"
-                            value="${obj.id}">
+                            value=54
                     </button>`
 
             if (obj.favorite) {
